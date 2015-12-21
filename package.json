@@ -1,6 +1,6 @@
 {
   "name": "redux-devtools-filterable-log-monitor",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Filterable tree view monitor for Redux DevTools",
   "main": "dist/main.js",
   "scripts": {

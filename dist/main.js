@@ -405,7 +405,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.getFilteredNodes = getFilteredNodes;
 	function isImmutable(data) {
-	  return data.toJS instanceof Function;
+	  return data && data.toJS instanceof Function;
 	}
 	
 	function searchKeys(key, node, regExp) {

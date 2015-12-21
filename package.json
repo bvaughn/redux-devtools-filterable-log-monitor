@@ -2,7 +2,7 @@
   "name": "redux-devtools-filterable-log-monitor",
   "version": "1.0.0",
   "description": "Filterable tree view monitor for Redux DevTools",
-  "main": "lib/index.js",
+  "main": "dist/main.js",
   "scripts": {
     "build": "npm run build:demo && npm run build:dist",
     "build:demo": "npm run clean:demo && NODE_ENV=production webpack --config webpack.config.demo.js -p --bail",

@@ -2,14 +2,14 @@ const path = require('path')
 
 module.exports = {
   devtool: 'source-map',
-  entry: {
-    'react-virtualized': './src/index.js'
-  },
+  entry: [
+    './src/index.js'
+  ],
   output: {
     path: 'dist',
     filename: '[name].js',
     libraryTarget: 'umd',
-    library: 'react-virtualized'
+    library: 'redux-devtools-filterable-log-monitor'
   },
   externals: {
     react: {

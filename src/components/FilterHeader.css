@@ -1,0 +1,34 @@
+.FilterHeader__header {
+  padding: .75em;
+  flex: 0 0 auto;
+}
+
+.FilterHeader__header__titleRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: .75em;
+  font-size: .75em;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.FilterHeader__header__title {
+  flex: 1;
+}
+
+.FilterHeader__input {
+  width: 100%;
+  border-radius: .25em;
+  line-height: 2rem;
+  padding: 0 .75em;
+  border: none;
+}
+.FilterHeader__input:focus {
+  outline: none;
+}
+
+.FilterHeader__label {
+  margin-left: .5em;
+  font-weight: normal;
+}

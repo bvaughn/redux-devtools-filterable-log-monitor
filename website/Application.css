@@ -1,0 +1,34 @@
+body {
+  font-family: Roboto, 'Open Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+a {
+  color: #2196f3;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.Application {
+  width: 70%;
+}
+
+.Button {
+  display: inline-block;
+  padding: 1rem;
+  border: none;
+  border-radius: 1em;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #4F5A65;
+  color: white;
+}

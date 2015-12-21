@@ -5,6 +5,7 @@ import {
   setFilterByValues,
   setFilterText
 } from '../actions'
+import debounce from 'lodash.debounce'
 import styles from './FilterHeader.css'
 
 FilterHeader.propTypes = {
@@ -15,6 +16,8 @@ FilterHeader.propTypes = {
   filterText: PropTypes.string.isRequired,
   theme: PropTypes.object.isRequired
 }
+
+const DEBOUNCE_TIME = 250
 
 export default function FilterHeader ({
   actionId,
@@ -47,6 +50,9 @@ export default function FilterHeader ({
       filterText
     }))
   }
+
+  // Debounce for better usability
+  onFilterTextChange = debounce(onFilterTextChange, DEBOUNCE_TIME)
 
   return (
     <div
@@ -92,7 +98,7 @@ export default function FilterHeader ({
         }}
         type='text'
         placeholder='Filter by /regex/i or "string"'
-        value={filterText}
+        defaultValue={filterText}
         onChange={onFilterTextChange}
       />
     </div>

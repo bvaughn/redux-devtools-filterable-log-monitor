@@ -103,6 +103,7 @@
     "redux-devtools": "^3.0.0"
   },
   "dependencies": {
+    "lodash.debounce": "^3.1.1",
     "react-json-tree": "^0.3.0",
     "react-pure-render": "^1.0.2",
     "redux-devtools-themes": "^1.0.0"

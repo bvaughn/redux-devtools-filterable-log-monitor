@@ -7,17 +7,17 @@ Check out a [simple demo application here](https://bvaughn.github.io/redux-devto
 
 <img width='400' height='384' alt='Demo GIF' src='https://cloud.githubusercontent.com/assets/29597/11935607/9b1a5576-a7bd-11e5-8dfc-b992fbb375e7.gif'/>
 
-### Installation
+Installation
+------------
 
 ```
 npm install --save-dev redux-devtools-filterable-log-monitor
 ```
 
-### Usage
+Usage
+------------
 
 The `FilterableLogMonitor` is intended for use within the [`DockMonitor`](https://github.com/gaearon/redux-devtools-dock-monitor). You can configure your app to use these monitors like so:
-
-##### `containers/DevTools.js`
 
 ```js
 import React from 'react'
@@ -40,10 +40,24 @@ Then you can render `<DevTools>` to any place inside app or even into a separate
 
 [Read how to start using Redux DevTools.](https://github.com/gaearon/redux-devtools)
 
-### Features
+Features
+------------
 
-Every action is displayed in the log. You can search actions using regular expressions or simple strings. Actions can be searched by keys, values, or both.
+Every action is displayed in the log. Use the filter input to quickly and easily locate nodes in your store that are deeply nested. You can search using regular expressions or simple strings. Select whether the search should match keys, values, or either using the checkboxes above the filter input.
 
-### License
+Contributions
+------------
 
-MIT
+Use [GitHub issues](https://github.com/bvaughn/redux-devtools-filterable-log-monitor/issues) for requests.
+
+I actively welcome pull requests; learn how to [contribute](https://github.com/bvaughn/react-virtualized/blob/master/CONTRIBUTING.md).
+
+Changelog
+---------
+
+Changes are tracked in the [changelog](https://github.com/bvaughn/redux-devtools-filterable-log-monitor/blob/master/CHANGELOG.md).
+
+License
+---------
+
+*react-virtualized* is available under the MIT License.

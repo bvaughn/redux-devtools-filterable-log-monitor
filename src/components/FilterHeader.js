@@ -91,6 +91,7 @@ export default function FilterHeader ({
           color: theme.base00
         }}
         type='text'
+        placeholder='Filter by /regex/i or "string"'
         value={filterText}
         onChange={onFilterTextChange}
       />

@@ -3,6 +3,8 @@ Redux DevTools Filterable Log Monitor
 
 Filterable tree view monitor for [Redux DevTools](https://github.com/gaearon/redux-devtools).
 
+Check out a [simple demo application here](https://bvaughn.github.io/redux-devtools-filterable-log-monitor).
+
 ### Installation
 
 ```

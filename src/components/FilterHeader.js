@@ -52,7 +52,7 @@ export default function FilterHeader ({
   }
 
   // Debounce for better usability
-  onFilterTextChange = debounce(onFilterTextChange, DEBOUNCE_TIME)
+  const debouncedOnFilterTextChange = debounce(onFilterTextChange, DEBOUNCE_TIME)
 
   return (
     <div
@@ -99,7 +99,7 @@ export default function FilterHeader ({
         type='text'
         placeholder='Filter by /regex/i or "string"'
         defaultValue={filterText}
-        onChange={onFilterTextChange}
+        onChange={debouncedOnFilterTextChange}
       />
     </div>
   )

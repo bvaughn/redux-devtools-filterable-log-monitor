@@ -153,6 +153,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'render',
 	    value: function render() {
 	      var _props2 = this.props;
+	      var actionsById = _props2.actionsById;
 	      var dispatch = _props2.dispatch;
 	      var actions = _props2.monitorState.actions;
 	      var stagedActionIds = _props2.stagedActionIds;
@@ -162,16 +163,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (actions) {
 	        stagedActionIds.forEach(function (actionId) {
-	          var action = actions[actionId];
+	          var action = actionsById[actionId];
+	          var monitorStateAction = actions[actionId];
 	
-	          if (action) {
-	            var filterByKeys = action.filterByKeys;
-	            var filterByValues = action.filterByValues;
-	            var filteredState = action.filteredState;
-	            var filterText = action.filterText;
+	          if (monitorStateAction) {
+	            var filterByKeys = monitorStateAction.filterByKeys;
+	            var filterByValues = monitorStateAction.filterByValues;
+	            var filteredState = monitorStateAction.filteredState;
+	            var filterText = monitorStateAction.filterText;
 	
 	            filterableStates.push(_react2['default'].createElement(_componentsFilterableState2['default'], {
 	              key: actionId,
+	              action: action,
 	              actionId: actionId,
 	              dispatch: dispatch,
 	              filterByKeys: filterByKeys,
@@ -193,7 +196,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            color: theme.base07
 	          }
 	        },
-	        filterableStates.reverse()
+	        filterableStates
 	      );
 	    }
 	  }, {
@@ -221,6 +224,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'propTypes',
 	    value: {
+	      actionsById: _react.PropTypes.object,
 	      computedStates: _react.PropTypes.array,
 	      dispatch: _react.PropTypes.func,
 	      monitorState: _react.PropTypes.shape({
@@ -310,8 +314,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!state.actions[actionId]) {
 	    state.actions[actionId] = {
 	      appState: {},
-	      filterByKeys: true,
-	      filterByValues: true,
+	      filterByKeys: false,
+	      filterByValues: false,
 	      filteredState: {},
 	      filterText: ''
 	    };
@@ -404,6 +408,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	exports.getFilteredNodes = getFilteredNodes;
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+	
 	function isImmutable(data) {
 	  return data && data.toJS instanceof Function;
 	}
@@ -442,7 +449,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (isImmutable(node)) {
 	    trimmed = node.toJS();
 	  } else {
-	    trimmed = _extends({}, node);
+	    trimmed = node instanceof Array ? [].concat(_toConsumableArray(node)) : _extends({}, node);
 	  }
 	
 	  if (filterText) {
@@ -465,6 +472,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var filterByValues = _ref.filterByValues;
 	  var _ref$filterText = _ref.filterText;
 	  var filterText = _ref$filterText === undefined ? '' : _ref$filterText;
+	
+	  if (!filterByKeys && !filterByValues || !filterText) {
+	    return appState;
+	  }
 	
 	  var regExp = undefined;
 	  if (filterText.match(/^\/.+\/[a-z]*$/)) {
@@ -1861,6 +1872,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _FilterHeader2 = _interopRequireDefault(_FilterHeader);
 	
 	FilterableState.propTypes = {
+	  action: _react.PropTypes.object.isRequired,
 	  actionId: _react.PropTypes.any.isRequired,
 	  dispatch: _react.PropTypes.func.isRequired,
 	  filterByKeys: _react.PropTypes.bool.isRequired,
@@ -1871,6 +1883,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	function FilterableState(_ref) {
+	  var action = _ref.action;
 	  var actionId = _ref.actionId;
 	  var dispatch = _ref.dispatch;
 	  var filterByKeys = _ref.filterByKeys;
@@ -1883,6 +1896,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    'div',
 	    null,
 	    _react2['default'].createElement(_FilterHeader2['default'], {
+	      action: action,
 	      actionId: actionId,
 	      dispatch: dispatch,
 	      filterByKeys: filterByKeys,
@@ -4826,6 +4840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _FilterHeaderCss2 = _interopRequireDefault(_FilterHeaderCss);
 	
 	FilterHeader.propTypes = {
+	  action: _react.PropTypes.object.isRequired,
 	  actionId: _react.PropTypes.any.isRequired,
 	  dispatch: _react.PropTypes.func.isRequired,
 	  filterByKeys: _react.PropTypes.bool.isRequired,
@@ -4837,6 +4852,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DEBOUNCE_TIME = 250;
 	
 	function FilterHeader(_ref) {
+	  var action = _ref.action;
 	  var actionId = _ref.actionId;
 	  var dispatch = _ref.dispatch;
 	  var filterByKeys = _ref.filterByKeys;
@@ -4873,59 +4889,81 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  return _react2['default'].createElement(
 	    'div',
-	    {
-	      className: _FilterHeaderCss2['default'].FilterHeader__header,
-	      style: { backgroundColor: theme.base02 }
-	    },
+	    { className: _FilterHeaderCss2['default'].FilterHeader },
 	    _react2['default'].createElement(
 	      'div',
 	      {
-	        className: _FilterHeaderCss2['default'].FilterHeader__header__titleRow,
-	        style: { color: theme.base06 }
+	        className: _FilterHeaderCss2['default'].actionTypeAndFilterByRow,
+	        style: {
+	          backgroundColor: theme.base02,
+	          color: theme.base06
+	        }
 	      },
 	      _react2['default'].createElement(
 	        'div',
-	        { className: _FilterHeaderCss2['default'].FilterHeader__header__title },
-	        'Filter by'
+	        {
+	          className: _FilterHeaderCss2['default'].actionType,
+	          title: action.action.type
+	        },
+	        action.action.type
 	      ),
 	      _react2['default'].createElement(
-	        'label',
-	        {
-	          className: _FilterHeaderCss2['default'].FilterHeader__label,
-	          style: { color: theme.base0D }
-	        },
-	        _react2['default'].createElement('input', {
-	          type: 'checkbox',
-	          checked: filterByKeys,
-	          onChange: onFilterByKeysChange
-	        }),
-	        'keys'
-	      ),
-	      _react2['default'].createElement(
-	        'label',
-	        {
-	          className: _FilterHeaderCss2['default'].FilterHeader__label,
-	          style: { color: theme.base0B }
-	        },
-	        _react2['default'].createElement('input', {
-	          type: 'checkbox',
-	          checked: filterByValues,
-	          onChange: onFilterByValuesChange
-	        }),
-	        'values'
+	        'div',
+	        { className: _FilterHeaderCss2['default'].filterByOptions },
+	        _react2['default'].createElement(
+	          'div',
+	          { className: _FilterHeaderCss2['default'].filterByLabel },
+	          'Filter by'
+	        ),
+	        _react2['default'].createElement(
+	          'label',
+	          {
+	            className: _FilterHeaderCss2['default'].label,
+	            style: { color: theme.base0D }
+	          },
+	          _react2['default'].createElement('input', {
+	            type: 'checkbox',
+	            checked: filterByKeys,
+	            onChange: onFilterByKeysChange
+	          }),
+	          'Keys'
+	        ),
+	        _react2['default'].createElement(
+	          'label',
+	          {
+	            className: _FilterHeaderCss2['default'].label,
+	            style: { color: theme.base0B }
+	          },
+	          _react2['default'].createElement('input', {
+	            type: 'checkbox',
+	            checked: filterByValues,
+	            onChange: onFilterByValuesChange
+	          }),
+	          'Values'
+	        )
 	      )
 	    ),
-	    _react2['default'].createElement('input', {
-	      className: _FilterHeaderCss2['default'].FilterHeader__input,
-	      style: {
-	        backgroundColor: theme.base06,
-	        color: theme.base00
+	    (filterByKeys || filterByValues) && _react2['default'].createElement(
+	      'div',
+	      {
+	        className: _FilterHeaderCss2['default'].filterContainer,
+	        style: {
+	          backgroundColor: theme.base01,
+	          color: theme.base06
+	        }
 	      },
-	      type: 'text',
-	      placeholder: 'Filter by /regex/i or "string"',
-	      defaultValue: filterText,
-	      onChange: debouncedOnFilterTextChange
-	    })
+	      _react2['default'].createElement('input', {
+	        className: _FilterHeaderCss2['default'].input,
+	        style: {
+	          backgroundColor: theme.base06,
+	          color: theme.base00
+	        },
+	        type: 'text',
+	        placeholder: 'Filter by /regex/i or "string"',
+	        defaultValue: filterText,
+	        onChange: debouncedOnFilterTextChange
+	      })
+	    )
 	  );
 	}
 	
@@ -5349,15 +5387,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, "._3waCYr72zvjZHfs-k15lDv {\n  padding: .75em;\n  -webkit-box-flex: 0;\n  -webkit-flex: 0 0 auto;\n      -ms-flex: 0 0 auto;\n          flex: 0 0 auto;\n}\n\n.os88XLrNMJq33DdOvbW7L {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: row;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin-bottom: .75em;\n  font-size: .75em;\n  text-transform: uppercase;\n  font-weight: bold;\n}\n\n.AKSo0ucCfNE-rSiO1OfrZ {\n  -webkit-box-flex: 1;\n  -webkit-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n}\n\n._2iTl766Qg71d75Ej-yhn7R {\n  width: 100%;\n  border-radius: .25em;\n  line-height: 32px;\n  line-height: 2rem;\n  padding: 0 .75em;\n  border: none;\n}\n._2iTl766Qg71d75Ej-yhn7R:focus {\n  outline: none;\n}\n\n._1td4Ph3jWI1bdfykcLKVl_ {\n  margin-left: .5em;\n  font-weight: normal;\n}\n", ""]);
+	exports.push([module.id, "._2Hda9Z61-hQd9KLjbX6pAS {\n  -webkit-box-flex: 0;\n  -webkit-flex: 0 0 auto;\n      -ms-flex: 0 0 auto;\n          flex: 0 0 auto;\n}\n\n._Gqa0sK2RoCj1N4v8-0G3 {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  padding: 8px;\n  padding: .5rem;\n}\n\n._2ohiLjVynhQApSYAWQEfnq {\n  font-size: 11px;\n  font-size: .7rem;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-flex: 0;\n  -webkit-flex: 0 0 auto;\n      -ms-flex: 0 0 auto;\n          flex: 0 0 auto;\n  margin-left: 8px;\n  margin-left: .5rem;\n}\n\n._1c5pUiw6ir54yRB0Ti81fr {\n  -webkit-box-flex: 1;\n  -webkit-flex: 1 1 auto;\n      -ms-flex: 1 1 auto;\n          flex: 1 1 auto;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow-x: hidden;\n}\n\n._1dJKKi214qnmX4MvuA74J2 {\n  -webkit-box-flex: 0;\n  -webkit-flex: 0 0 auto;\n      -ms-flex: 0 0 auto;\n          flex: 0 0 auto;\n}\n\n.l6dUtktihaWAU3IPhkumc {\n  margin-left: .5em;\n  font-weight: normal;\n  -webkit-box-flex: 0;\n  -webkit-flex: 0 0 auto;\n      -ms-flex: 0 0 auto;\n          flex: 0 0 auto;\n}\n\n._2WFaba0IHApsNVzr9Nqh1h {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: row;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-flex-wrap: wrap;\n      -ms-flex-wrap: wrap;\n          flex-wrap: wrap;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n  padding: 8px;\n  padding: .5rem;\n  font-size: 10px;\n  font-size: .65rem;\n  text-transform: uppercase;\n  font-weight: bold;\n}\n\n.egUUXzSgjeAN6bOf7Hg_C {\n  -webkit-box-flex: 0;\n  -webkit-flex: 0 0 100%;\n      -ms-flex: 0 0 100%;\n          flex: 0 0 100%;\n  border-radius: .25em;\n  line-height: 32px;\n  line-height: 2rem;\n  padding: 0 8px;\n  padding: 0 .5rem;\n  border: none;\n}\n.egUUXzSgjeAN6bOf7Hg_C:focus {\n  outline: none;\n}\n", ""]);
 	
 	// exports
 	exports.locals = {
-		"FilterHeader__header": "_3waCYr72zvjZHfs-k15lDv",
-		"FilterHeader__header__titleRow": "os88XLrNMJq33DdOvbW7L",
-		"FilterHeader__header__title": "AKSo0ucCfNE-rSiO1OfrZ",
-		"FilterHeader__input": "_2iTl766Qg71d75Ej-yhn7R",
-		"FilterHeader__label": "_1td4Ph3jWI1bdfykcLKVl_"
+		"FilterHeader": "_2Hda9Z61-hQd9KLjbX6pAS",
+		"actionTypeAndFilterByRow": "_Gqa0sK2RoCj1N4v8-0G3",
+		"filterByOptions": "_2ohiLjVynhQApSYAWQEfnq",
+		"actionType": "_1c5pUiw6ir54yRB0Ti81fr",
+		"filterByLabel": "_1dJKKi214qnmX4MvuA74J2",
+		"label": "l6dUtktihaWAU3IPhkumc",
+		"filterContainer": "_2WFaba0IHApsNVzr9Nqh1h",
+		"input": "egUUXzSgjeAN6bOf7Hg_C"
 	};
 
 /***/ },

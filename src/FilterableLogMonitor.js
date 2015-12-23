@@ -94,7 +94,7 @@ export default class FilterableLogMonitor extends Component {
           color: theme.base07
         }}
       >
-        {filterableStates.reverse()}
+        {filterableStates}
       </div>
     )
   }

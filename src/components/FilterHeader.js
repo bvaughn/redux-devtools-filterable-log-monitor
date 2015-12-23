@@ -65,13 +65,17 @@ export default function FilterHeader ({
           color: theme.base06
         }}
       >
-        <div className={styles.actionType}>
+        <div
+          className={styles.actionType}
+          title={action.action.type}
+        >
           {action.action.type}
         </div>
 
         <div className={styles.filterByOptions}>
-          Filter by
-
+          <div className={styles.filterByLabel}>
+            Filter by
+          </div>
           <label
             className={styles.label}
             style={{ color: theme.base0D }}

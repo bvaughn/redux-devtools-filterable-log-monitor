@@ -11,15 +11,25 @@
   font-size: .7rem;
   display: flex;
   align-items: center;
+  flex: 0 0 auto;
+  margin-left: .5rem;
 }
 
 .actionType {
-  flex: 1 0 auto;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.filterByLabel {
+  flex: 0 0 auto;
 }
 
 .label {
   margin-left: .5em;
   font-weight: normal;
+  flex: 0 0 auto;
 }
 
 .filterContainer {

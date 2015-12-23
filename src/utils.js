@@ -32,7 +32,9 @@ function trimTree (node, filterText, searchFunction) {
   if (isImmutable(node)) {
     trimmed = node.toJS()
   } else {
-    trimmed = { ...node }
+    trimmed = node instanceof Array
+      ? [ ...node ]
+      : { ...node }
   }
 
   if (filterText) {
@@ -77,5 +79,7 @@ export function getFilteredNodes ({
   const valueSearcher = filterByValues ? searchValues : () => false
   const searchFunction = (key, value, regExp) => keySearcher(key, value, regExp) || valueSearcher(value, regExp)
 
+console.log('Trimming by', filterText)
+console.log(trimTree(appState, regExp, searchFunction))
   return trimTree(appState, regExp, searchFunction)
 }

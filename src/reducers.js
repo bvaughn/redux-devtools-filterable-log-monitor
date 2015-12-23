@@ -42,8 +42,8 @@ function updateAction (state, actionId, props) {
   if (!state.actions[actionId]) {
     state.actions[actionId] = {
       appState: {},
-      filterByKeys: true,
-      filterByValues: true,
+      filterByKeys: false,
+      filterByValues: false,
       filteredState: {},
       filterText: ''
     }

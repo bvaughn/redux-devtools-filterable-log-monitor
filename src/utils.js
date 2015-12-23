@@ -54,6 +54,10 @@ export function getFilteredNodes ({
   filterByValues,
   filterText = ''
 }) {
+  if (!filterByKeys && !filterByValues || !filterText) {
+    return appState
+  }
+
   let regExp
   if (filterText.match(/^\/.+\/[a-z]*$/)) {
     const pieces = filterText.split('/')

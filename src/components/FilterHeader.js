@@ -9,6 +9,7 @@ import debounce from 'lodash.debounce'
 import styles from './FilterHeader.css'
 
 FilterHeader.propTypes = {
+  action: PropTypes.object.isRequired,
   actionId: PropTypes.any.isRequired,
   dispatch: PropTypes.func.isRequired,
   filterByKeys: PropTypes.bool.isRequired,
@@ -20,6 +21,7 @@ FilterHeader.propTypes = {
 const DEBOUNCE_TIME = 250
 
 export default function FilterHeader ({
+  action,
   actionId,
   dispatch,
   filterByKeys,
@@ -55,52 +57,67 @@ export default function FilterHeader ({
   const debouncedOnFilterTextChange = debounce(onFilterTextChange, DEBOUNCE_TIME)
 
   return (
-    <div
-      className={styles.FilterHeader__header}
-      style={{ backgroundColor: theme.base02 }}
-    >
+    <div className={styles.FilterHeader}>
       <div
-        className={styles.FilterHeader__header__titleRow}
-        style={{ color: theme.base06 }}
+        className={styles.actionTypeAndFilterByRow}
+        style={{
+          backgroundColor: theme.base02,
+          color: theme.base06
+        }}
       >
-        <div className={styles.FilterHeader__header__title}>
-          Filter by
+        <div className={styles.actionType}>
+          {action.action.type}
         </div>
 
-        <label
-          className={styles.FilterHeader__label}
-          style={{ color: theme.base0D }}
-        >
-          <input
-            type='checkbox'
-            checked={filterByKeys}
-            onChange={onFilterByKeysChange}
-          />
-          keys
-        </label>
-        <label
-          className={styles.FilterHeader__label}
-          style={{ color: theme.base0B }}
-        >
-          <input
-            type='checkbox'
-            checked={filterByValues}
-            onChange={onFilterByValuesChange}
-          />
-          values
-        </label>
+        <div className={styles.filterByOptions}>
+          Filter by
+
+          <label
+            className={styles.label}
+            style={{ color: theme.base0D }}
+          >
+            <input
+              type='checkbox'
+              checked={filterByKeys}
+              onChange={onFilterByKeysChange}
+            />
+            Keys
+          </label>
+          <label
+            className={styles.label}
+            style={{ color: theme.base0B }}
+          >
+            <input
+              type='checkbox'
+              checked={filterByValues}
+              onChange={onFilterByValuesChange}
+            />
+            Values
+          </label>
+        </div>
       </div>
-      <input
-        className={styles.FilterHeader__input}
-        style={{
-          backgroundColor: theme.base06,
-          color: theme.base00
-        }}
-        type='text'
-        placeholder='Filter by /regex/i or "string"'
-        defaultValue={filterText}
-        onChange={debouncedOnFilterTextChange}
-      />
+
+      {(filterByKeys || filterByValues) &&
+        <div
+          className={styles.filterContainer}
+          style={{
+            backgroundColor: theme.base01,
+            color: theme.base06
+          }}
+        >
+          <input
+            className={styles.input}
+            style={{
+              backgroundColor: theme.base06,
+              color: theme.base00
+            }}
+            type='text'
+            placeholder='Filter by /regex/i or "string"'
+            defaultValue={filterText}
+            onChange={debouncedOnFilterTextChange}
+          />
+        </div>
+      }
     </div>
   )
 }

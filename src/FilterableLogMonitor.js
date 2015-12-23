@@ -13,6 +13,7 @@ export default class FilterableLogMonitor extends Component {
   static update = reducer
 
   static propTypes = {
+    actionsById: PropTypes.object,
     computedStates: PropTypes.array,
     dispatch: PropTypes.func,
     monitorState: PropTypes.shape({
@@ -44,6 +45,7 @@ export default class FilterableLogMonitor extends Component {
 
   render () {
     const {
+      actionsById,
       dispatch,
       monitorState: {
         actions
@@ -56,19 +58,21 @@ export default class FilterableLogMonitor extends Component {
 
     if (actions) {
       stagedActionIds.forEach(actionId => {
-        const action = actions[actionId]
+        const action = actionsById[actionId]
+        const monitorStateAction = actions[actionId]
 
-        if (action) {
+        if (monitorStateAction) {
           const {
             filterByKeys,
             filterByValues,
             filteredState,
             filterText
-          } = action
+          } = monitorStateAction
 
           filterableStates.push(
             <FilterableState
               key={actionId}
+              action={action}
               actionId={actionId}
               dispatch={dispatch}
               filterByKeys={filterByKeys}

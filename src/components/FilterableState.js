@@ -4,6 +4,7 @@ import JSONTree from 'react-json-tree'
 import FilterHeader from './FilterHeader'
 
 FilterableState.propTypes = {
+  action: PropTypes.object.isRequired,
   actionId: PropTypes.any.isRequired,
   dispatch: PropTypes.func.isRequired,
   filterByKeys: PropTypes.bool.isRequired,
@@ -14,6 +15,7 @@ FilterableState.propTypes = {
 }
 
 export default function FilterableState ({
+  action,
   actionId,
   dispatch,
   filterByKeys,
@@ -25,6 +27,7 @@ export default function FilterableState ({
   return (
     <div>
       <FilterHeader
+        action={action}
         actionId={actionId}
         dispatch={dispatch}
         filterByKeys={filterByKeys}

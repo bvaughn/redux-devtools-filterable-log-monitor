@@ -120,9 +120,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _componentsFilterableState2 = _interopRequireDefault(_componentsFilterableState);
 	
+	var _utils = __webpack_require__(6);
+	
+	var _lodashDebounce = __webpack_require__(140);
+	
+	var _lodashDebounce2 = _interopRequireDefault(_lodashDebounce);
+	
 	var _FilterableLogMonitorCss = __webpack_require__(146);
 	
 	var _FilterableLogMonitorCss2 = _interopRequireDefault(_FilterableLogMonitorCss);
+	
+	var DEBOUNCE_TIME = 250;
 	
 	var FilterableLogMonitor = (function (_Component) {
 	  _inherits(FilterableLogMonitor, _Component);
@@ -155,8 +163,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _props2 = this.props;
 	      var actionsById = _props2.actionsById;
 	      var dispatch = _props2.dispatch;
-	      var actions = _props2.monitorState.actions;
+	      var _props2$monitorState = _props2.monitorState;
+	      var actionFilterText = _props2$monitorState.actionFilterText;
+	      var actions = _props2$monitorState.actions;
 	      var stagedActionIds = _props2.stagedActionIds;
+	
+	      function onActionFilterTextChange(event) {
+	        var actionFilterText = event.target.value;
+	        dispatch((0, _actions.setActionFilterText)({
+	          actionFilterText: actionFilterText
+	        }));
+	      }
+	
+	      // Debounce for better usability
+	      var debouncedOnActionFilterTextChange = (0, _lodashDebounce2['default'])(onActionFilterTextChange, DEBOUNCE_TIME);
 	
 	      var theme = this._getTheme();
 	      var filterableStates = [];
@@ -166,7 +186,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var action = actionsById[actionId];
 	          var monitorStateAction = actions[actionId];
 	
-	          if (monitorStateAction) {
+	          if (monitorStateAction && (!actionFilterText || action.action.type.match((0, _utils.createRegExpFromFilterText)(actionFilterText)))) {
 	            var filterByKeys = monitorStateAction.filterByKeys;
 	            var filterByValues = monitorStateAction.filterByValues;
 	            var filteredState = monitorStateAction.filteredState;
@@ -196,7 +216,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	            color: theme.base07
 	          }
 	        },
-	        filterableStates
+	        _react2['default'].createElement(
+	          'div',
+	          {
+	            className: _FilterableLogMonitorCss2['default'].filterActionsHeader,
+	            style: {
+	              backgroundColor: theme.base01
+	            }
+	          },
+	          _react2['default'].createElement('input', {
+	            className: _FilterableLogMonitorCss2['default'].input,
+	            style: {
+	              backgroundColor: theme.base06,
+	              color: theme.base00
+	            },
+	            type: 'text',
+	            placeholder: 'Filter actions by type..',
+	            defaultValue: actionFilterText,
+	            onChange: debouncedOnActionFilterTextChange
+	          })
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { className: _FilterableLogMonitorCss2['default'].filterableStates },
+	          filterableStates
+	        )
 	      );
 	    }
 	  }, {
@@ -228,6 +272,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      computedStates: _react.PropTypes.array,
 	      dispatch: _react.PropTypes.func,
 	      monitorState: _react.PropTypes.shape({
+	        actionFilterText: _react.PropTypes.string,
 	        actions: _react.PropTypes.object
 	      }),
 	      stagedActionIds: _react.PropTypes.array,
@@ -264,9 +309,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
 	var _reducers;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	exports['default'] = reducer;
 	
@@ -287,6 +332,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var appState = action.appState;
 	
 	  return updateAction(state, actionId, { appState: appState });
+	}), _defineProperty(_reducers, _actions.SET_ACTION_FILTER_BY_TEXT, function (state, action) {
+	  var actionFilterText = action.actionFilterText;
+	
+	  return _extends({}, state, {
+	    actionFilterText: actionFilterText
+	  });
 	}), _defineProperty(_reducers, _actions.SET_FILTER_BY_KEYS, function (state, action) {
 	  var actionId = action.actionId;
 	  var filterByKeys = action.filterByKeys;
@@ -338,11 +389,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	exports.buildSearchIndex = buildSearchIndex;
+	exports.setActionFilterText = setActionFilterText;
 	exports.setFilterByKeys = setFilterByKeys;
 	exports.setFilterByValues = setFilterByValues;
 	exports.setFilterText = setFilterText;
 	var BUILD_SEARCH_INDEX = '@@redux-devtools-filterable-log-monitor/BUILD_SEARCH_INDEX';
 	exports.BUILD_SEARCH_INDEX = BUILD_SEARCH_INDEX;
+	var SET_ACTION_FILTER_BY_TEXT = '@@redux-devtools-filterable-log-monitor/SET_ACTION_FILTER_BY_TEXT';
+	exports.SET_ACTION_FILTER_BY_TEXT = SET_ACTION_FILTER_BY_TEXT;
 	var SET_FILTER_BY_KEYS = '@@redux-devtools-filterable-log-monitor/SET_FILTER_BY_KEYS';
 	exports.SET_FILTER_BY_KEYS = SET_FILTER_BY_KEYS;
 	var SET_FILTER_BY_VALUES = '@@redux-devtools-filterable-log-monitor/SET_FILTER_BY_VALUES';
@@ -362,9 +416,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	}
 	
-	function setFilterByKeys(_ref2) {
-	  var actionId = _ref2.actionId;
-	  var filterByKeys = _ref2.filterByKeys;
+	function setActionFilterText(_ref2) {
+	  var actionFilterText = _ref2.actionFilterText;
+	
+	  return {
+	    type: SET_ACTION_FILTER_BY_TEXT,
+	    actionFilterText: actionFilterText
+	  };
+	}
+	
+	function setFilterByKeys(_ref3) {
+	  var actionId = _ref3.actionId;
+	  var filterByKeys = _ref3.filterByKeys;
 	
 	  return {
 	    type: SET_FILTER_BY_KEYS,
@@ -373,9 +436,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	}
 	
-	function setFilterByValues(_ref3) {
-	  var actionId = _ref3.actionId;
-	  var filterByValues = _ref3.filterByValues;
+	function setFilterByValues(_ref4) {
+	  var actionId = _ref4.actionId;
+	  var filterByValues = _ref4.filterByValues;
 	
 	  return {
 	    type: SET_FILTER_BY_VALUES,
@@ -384,9 +447,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	}
 	
-	function setFilterText(_ref4) {
-	  var actionId = _ref4.actionId;
-	  var filterText = _ref4.filterText;
+	function setFilterText(_ref5) {
+	  var actionId = _ref5.actionId;
+	  var filterText = _ref5.filterText;
 	
 	  return {
 	    type: SET_FILTER_TEXT,
@@ -407,6 +470,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
+	exports.createRegExpFromFilterText = createRegExpFromFilterText;
 	exports.getFilteredNodes = getFilteredNodes;
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
@@ -465,6 +529,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return trimmed;
 	}
 	
+	function createRegExpFromFilterText(filterText) {
+	  if (filterText.match(/^\/.+\/[a-z]*$/)) {
+	    var pieces = filterText.split('/');
+	    pieces.shift(); // First item is always empty
+	    var flags = pieces.pop(); // Last item contains optional) flags
+	    try {
+	      return new RegExp(pieces.join('/'), flags);
+	    } catch (error) {
+	      console.error(error);
+	      return new RegExp();
+	    }
+	  } else {
+	    return new RegExp(filterText);
+	  }
+	}
+	
 	function getFilteredNodes(_ref) {
 	  var _ref$appState = _ref.appState;
 	  var appState = _ref$appState === undefined ? {} : _ref$appState;
@@ -477,21 +557,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return appState;
 	  }
 	
-	  var regExp = undefined;
-	  if (filterText.match(/^\/.+\/[a-z]*$/)) {
-	    var pieces = filterText.split('/');
-	    pieces.shift(); // First item is always empty
-	    var flags = pieces.pop(); // Last item contains optional) flags
-	    try {
-	      regExp = new RegExp(pieces.join('/'), flags);
-	    } catch (error) {
-	      console.error(error);
-	      regExp = new RegExp();
-	    }
-	  } else {
-	    regExp = new RegExp(filterText);
-	  }
-	
+	  var regExp = createRegExpFromFilterText(filterText);
 	  var keySearcher = filterByKeys ? searchKeys : function () {
 	    return false;
 	  };
@@ -5746,11 +5812,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, "._3pkdEgUxKLGAsWAZjGjSu8 {\n  position: absolute;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  overflow-y: scroll;\n  font-size: 14px;\n}\n", ""]);
+	exports.push([module.id, "._3pkdEgUxKLGAsWAZjGjSu8 {\n  position: absolute;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  font-size: 14px;\n}\n\n._2n6VLj_yOUuOo0EWFzdOga {\n  -webkit-box-flex: 0;\n  -webkit-flex: 0 0 auto;\n      -ms-flex: 0 0 auto;\n          flex: 0 0 auto;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: row;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  padding: .75em;\n  font-size: .65em;\n  text-transform: uppercase;\n  font-weight: bold;\n}\n\n.xejqn1JLQYHzAafVkE3Gh {\n  -webkit-box-flex: 0;\n  -webkit-flex: 0 0 100%;\n      -ms-flex: 0 0 100%;\n          flex: 0 0 100%;\n  border-radius: .25em;\n  line-height: 3em;\n  padding: 0 .75em;\n  border: none;\n}\n.xejqn1JLQYHzAafVkE3Gh:focus {\n  outline: none;\n}\n\n._2PHb5OJ5sEGJMiFnDeA3_P {\n  overflow-y: scroll;\n  -webkit-box-flex: 1;\n  -webkit-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n}\n", ""]);
 	
 	// exports
 	exports.locals = {
-		"FilterableLogMonitor": "_3pkdEgUxKLGAsWAZjGjSu8"
+		"FilterableLogMonitor": "_3pkdEgUxKLGAsWAZjGjSu8",
+		"filterActionsHeader": "_2n6VLj_yOUuOo0EWFzdOga",
+		"input": "xejqn1JLQYHzAafVkE3Gh",
+		"filterableStates": "_2PHb5OJ5sEGJMiFnDeA3_P"
 	};
 
 /***/ }

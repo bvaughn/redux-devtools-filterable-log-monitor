@@ -1,5 +1,6 @@
 import {
   BUILD_SEARCH_INDEX,
+  SET_ACTION_FILTER_BY_TEXT,
   SET_FILTER_BY_KEYS,
   SET_FILTER_BY_VALUES,
   SET_FILTER_TEXT
@@ -14,6 +15,14 @@ const reducers = {
   [BUILD_SEARCH_INDEX] (state, action) {
     const { actionId, appState } = action
     return updateAction(state, actionId, { appState })
+  },
+
+  [SET_ACTION_FILTER_BY_TEXT] (state, action) {
+    const { actionFilterText } = action
+    return {
+      ...state,
+      actionFilterText
+    }
   },
 
   [SET_FILTER_BY_KEYS] (state, action) {

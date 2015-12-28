@@ -24,13 +24,23 @@ a:hover {
 
 .Button {
   display: inline-block;
-  padding: .75em;
+  padding: .5em .75em;
   border: none;
-  border-radius: .5em;
-  font-size: 1em;
+  border-radius: .35em;
+  font-size: .85em;
   font-weight: bold;
-  background-color: #4F5A65;
+  background-color: #2A2F3A;
   color: white;
   margin-right: .5em;
   margin-bottom: .5em;
+}
+.update {
+  color: #6FB3D2;
+  margin-right: .5em;
+}
+.array {
+  color: #D381C3;
+}
+.object {
+  color: #A1C659;
 }

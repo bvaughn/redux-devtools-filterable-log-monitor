@@ -5,7 +5,7 @@ Filterable tree view monitor for [Redux DevTools](https://github.com/gaearon/red
 
 Check out a [simple demo application here](https://bvaughn.github.io/redux-devtools-filterable-log-monitor).
 
-<img width='592' height='416' alt='Demo GIF' src='https://cloud.githubusercontent.com/assets/29597/11971588/f3eae0de-a8f4-11e5-8f10-f56fc2833ce3.gif'/>
+<img width='624' height='448' alt='Demo GIF' src='https://cloud.githubusercontent.com/assets/29597/12024861/a510cb96-ad76-11e5-9ce3-78f46a2f6837.gif'/>
 
 Installation
 ------------

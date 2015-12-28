@@ -1,8 +1,7 @@
-Redux DevTools Filterable Log Monitor
+<img src='https://cloud.githubusercontent.com/assets/29597/12027069/779d8f3c-ad8f-11e5-8bac-2f6e8eed7192.png' width='250' height='123' alt='redux devtools filterable log monitor logo'/>
 =========================
 
 Filterable tree view monitor for [Redux DevTools](https://github.com/gaearon/redux-devtools).
-
 Check out a [simple demo application here](https://bvaughn.github.io/redux-devtools-filterable-log-monitor).
 
 <img width='624' height='448' alt='Demo GIF' src='https://cloud.githubusercontent.com/assets/29597/12024861/a510cb96-ad76-11e5-9ce3-78f46a2f6837.gif'/>

@@ -50,6 +50,22 @@ function trimTree (node, filterText, searchFunction) {
   return trimmed
 }
 
+export function createRegExpFromFilterText (filterText) {
+  if (filterText.match(/^\/.+\/[a-z]*$/)) {
+    const pieces = filterText.split('/')
+    pieces.shift() // First item is always empty
+    const flags = pieces.pop() // Last item contains optional) flags
+    try {
+      return new RegExp(pieces.join('/'), flags)
+    } catch (error) {
+      console.error(error)
+      return new RegExp()
+    }
+  } else {
+    return new RegExp(filterText)
+  }
+}
+
 export function getFilteredNodes ({
   appState = {},
   filterByKeys,
@@ -60,21 +76,7 @@ export function getFilteredNodes ({
     return appState
   }
 
-  let regExp
-  if (filterText.match(/^\/.+\/[a-z]*$/)) {
-    const pieces = filterText.split('/')
-    pieces.shift() // First item is always empty
-    const flags = pieces.pop() // Last item contains optional) flags
-    try {
-      regExp = new RegExp(pieces.join('/'), flags)
-    } catch (error) {
-      console.error(error)
-      regExp = new RegExp()
-    }
-  } else {
-    regExp = new RegExp(filterText)
-  }
-
+  const regExp = createRegExpFromFilterText(filterText)
   const keySearcher = filterByKeys ? searchKeys : () => false
   const valueSearcher = filterByValues ? searchValues : () => false
   const searchFunction = (key, value, regExp) => keySearcher(key, value, regExp) || valueSearcher(value, regExp)

@@ -24,11 +24,13 @@ a:hover {
 
 .Button {
   display: inline-block;
-  padding: 1rem;
+  padding: .75em;
   border: none;
-  border-radius: 1em;
-  font-size: 1rem;
+  border-radius: .5em;
+  font-size: 1em;
   font-weight: bold;
   background-color: #4F5A65;
   color: white;
+  margin-right: .5em;
+  margin-bottom: .5em;
 }

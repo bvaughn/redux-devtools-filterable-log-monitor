@@ -1,4 +1,5 @@
 export const BUILD_SEARCH_INDEX = '@@redux-devtools-filterable-log-monitor/BUILD_SEARCH_INDEX'
+export const SET_ACTION_FILTER_BY_TEXT = '@@redux-devtools-filterable-log-monitor/SET_ACTION_FILTER_BY_TEXT'
 export const SET_FILTER_BY_KEYS = '@@redux-devtools-filterable-log-monitor/SET_FILTER_BY_KEYS'
 export const SET_FILTER_BY_VALUES = '@@redux-devtools-filterable-log-monitor/SET_FILTER_BY_VALUES'
 export const SET_FILTER_TEXT = '@@redux-devtools-filterable-log-monitor/SET_FILTER_TEXT'
@@ -8,6 +9,13 @@ export function buildSearchIndex ({ actionId, appState }) {
     type: BUILD_SEARCH_INDEX,
     actionId,
     appState
+  }
+}
+
+export function setActionFilterText ({ actionFilterText }) {
+  return {
+    type: SET_ACTION_FILTER_BY_TEXT,
+    actionFilterText
   }
 }
 

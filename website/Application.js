@@ -6,17 +6,20 @@ import styles from './Application.css'
 
 class Application extends Component {
   static propTypes = {
-    udpateState: PropTypes.func.isRequired
+    udpateArray: PropTypes.func.isRequired,
+    udpateList: PropTypes.func.isRequired,
+    udpateMap: PropTypes.func.isRequired,
+    udpateObject: PropTypes.func.isRequired
   }
 
   componentDidMount () {
-    const { udpateState } = this.props
+    const { udpateMap } = this.props
 
-    udpateState()
+    udpateMap()
   }
 
   render () {
-    const { udpateState } = this.props
+    const { udpateArray, udpateList, udpateMap, udpateObject } = this.props
 
     return (
       <div className={styles.Application}>
@@ -31,15 +34,38 @@ class Application extends Component {
         <p>
           Use the log monitor to the side to filter the Redux store.
           (You can filter using strings or regular expressions!)
-          Use the button below to trigger a store update (adding more random data).
+          Use the buttons below to trigger a store update (adding more random data).
         </p>
 
-        <button
-          className={styles.Button}
-          onClick={udpateState}
-        >
-          Update State
-        </button>
+        <p>
+          <button
+            className={styles.Button}
+            onClick={udpateArray}
+          >
+            Update Array
+          </button>
+
+          <button
+            className={styles.Button}
+            onClick={udpateList}
+          >
+            Update List
+          </button>
+
+          <button
+            className={styles.Button}
+            onClick={udpateMap}
+          >
+            Update Map
+          </button>
+
+          <button
+            className={styles.Button}
+            onClick={udpateObject}
+          >
+            Update Object
+          </button>
+        </p>
 
         <p>
           Apologies for the basic demo; I hope to add more soon!

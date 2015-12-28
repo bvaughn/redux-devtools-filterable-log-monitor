@@ -3,9 +3,13 @@ import React, { Component, PropTypes } from 'react'
 import reducer from './reducers'
 import shouldPureComponentUpdate from 'react-pure-render/function'
 import * as themes from 'redux-devtools-themes'
-import { buildSearchIndex } from './actions'
+import { buildSearchIndex, setActionFilterText } from './actions'
 import FilterableState from './components/FilterableState'
+import { createRegExpFromFilterText } from './utils'
+import debounce from 'lodash.debounce'
 import styles from './FilterableLogMonitor.css'
+
+const DEBOUNCE_TIME = 250
 
 export default class FilterableLogMonitor extends Component {
   static shouldComponentUpdate = shouldPureComponentUpdate
@@ -17,6 +21,7 @@ export default class FilterableLogMonitor extends Component {
     computedStates: PropTypes.array,
     dispatch: PropTypes.func,
     monitorState: PropTypes.shape({
+      actionFilterText: PropTypes.string,
       actions: PropTypes.object
     }),
     stagedActionIds: PropTypes.array,
@@ -48,10 +53,21 @@ export default class FilterableLogMonitor extends Component {
       actionsById,
       dispatch,
       monitorState: {
+        actionFilterText,
         actions
       },
       stagedActionIds
     } = this.props
+
+    function onActionFilterTextChange (event) {
+      const actionFilterText = event.target.value
+      dispatch(setActionFilterText({
+        actionFilterText
+      }))
+    }
+
+    // Debounce for better usability
+    const debouncedOnActionFilterTextChange = debounce(onActionFilterTextChange, DEBOUNCE_TIME)
 
     const theme = this._getTheme()
     const filterableStates = []
@@ -61,7 +77,13 @@ export default class FilterableLogMonitor extends Component {
         const action = actionsById[actionId]
         const monitorStateAction = actions[actionId]
 
-        if (monitorStateAction) {
+        if (
+          monitorStateAction &&
+          (
+            !actionFilterText ||
+            action.action.type.match(createRegExpFromFilterText(actionFilterText))
+          )
+        ) {
           const {
             filterByKeys,
             filterByValues,
@@ -94,7 +116,27 @@ export default class FilterableLogMonitor extends Component {
           color: theme.base07
         }}
       >
-        {filterableStates}
+        <div
+          className={styles.filterActionsHeader}
+          style={{
+            backgroundColor: theme.base01
+          }}
+        >
+          <input
+            className={styles.input}
+            style={{
+              backgroundColor: theme.base06,
+              color: theme.base00
+            }}
+            type='text'
+            placeholder='Filter actions by type..'
+            defaultValue={actionFilterText}
+            onChange={debouncedOnActionFilterTextChange}
+          />
+        </div>
+        <div className={styles.filterableStates}>
+          {filterableStates}
+        </div>
       </div>
     )
   }

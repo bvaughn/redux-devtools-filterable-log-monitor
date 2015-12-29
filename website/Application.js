@@ -70,6 +70,9 @@ class Application extends Component {
   }
 }
 
+// Import and attach the favicon
+document.querySelector('[rel="shortcut icon"]').href = require('file!./favicon.png')
+
 function UpdateButton ({
   label,
   labelClass,

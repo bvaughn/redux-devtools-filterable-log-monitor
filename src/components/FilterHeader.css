@@ -1,5 +1,6 @@
 .FilterHeader {
   flex: 0 0 auto;
+  align-items: center;
 }
 
 .actionTypeAndFilterByRow {
@@ -21,9 +22,29 @@
   text-overflow: ellipsis;
   overflow-x: hidden;
 }
+@media (max-width: 1024px) {
+  .actionType {
+    font-size: .8em;
+  }
+}
+
+.actionTime {
+  font-size: .6em;
+  margin-left: .6em;
+}
+@media (max-width: 1024px) {
+  .actionTime {
+    display: none;
+  }
+}
 
 .filterByLabel {
   flex: 0 0 auto;
+}
+@media (max-width: 1024px) {
+  .filterByLabel {
+    display: none;
+  }
 }
 
 .label {

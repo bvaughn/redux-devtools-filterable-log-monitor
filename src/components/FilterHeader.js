@@ -7,14 +7,13 @@ import {
 } from '../actions'
 import debounce from 'lodash.debounce'
 import styles from './FilterHeader.css'
+import 'date-format-lite'
 
 FilterHeader.propTypes = {
   action: PropTypes.object.isRequired,
   actionId: PropTypes.any.isRequired,
   dispatch: PropTypes.func.isRequired,
-  filterByKeys: PropTypes.bool.isRequired,
-  filterByValues: PropTypes.bool.isRequired,
-  filterText: PropTypes.string.isRequired,
+  monitorStateAction: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired
 }
 
@@ -24,11 +23,16 @@ export default function FilterHeader ({
   action,
   actionId,
   dispatch,
-  filterByKeys,
-  filterByValues,
-  filterText,
+  monitorStateAction,
   theme
 }) {
+  const {
+    filterByKeys,
+    filterByValues,
+    filterText,
+    time
+  } = monitorStateAction
+
   function onFilterByKeysChange (event) {
     const filterByKeys = event.target.checked
     dispatch(setFilterByKeys({
@@ -67,9 +71,18 @@ export default function FilterHeader ({
       >
         <div
           className={styles.actionType}
-          title={action.action.type}
+          title={action.type}
         >
-          {action.action.type}
+          {action.type}
+
+          <span
+            className={styles.actionTime}
+            style={{
+              color: theme.base05
+            }}
+          >
+            {`(${time.format('H:mm:ss A')})`}
+          </span>
         </div>
 
         <div className={styles.filterByOptions}>

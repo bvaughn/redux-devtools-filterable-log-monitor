@@ -3,13 +3,11 @@ import React, { Component, PropTypes } from 'react'
 import reducer from './reducers'
 import shouldPureComponentUpdate from 'react-pure-render/function'
 import * as themes from 'redux-devtools-themes'
-import { buildSearchIndex, setActionFilterText } from './actions'
+import { addActionMetadata } from './actions'
+import ActionFilter from './components/ActionFilter'
 import FilterableState from './components/FilterableState'
 import { createRegExpFromFilterText } from './utils'
-import debounce from 'lodash.debounce'
 import styles from './FilterableLogMonitor.css'
-
-const DEBOUNCE_TIME = 250
 
 export default class FilterableLogMonitor extends Component {
   static shouldComponentUpdate = shouldPureComponentUpdate
@@ -43,7 +41,7 @@ export default class FilterableLogMonitor extends Component {
         let actionId = nextProps.stagedActionIds[i]
         let appState = nextProps.computedStates[i].state
 
-        dispatch(buildSearchIndex({ actionId, appState }))
+        dispatch(addActionMetadata({ actionId, appState }))
       }
     }
   }
@@ -59,54 +57,37 @@ export default class FilterableLogMonitor extends Component {
       stagedActionIds
     } = this.props
 
-    function onActionFilterTextChange (event) {
-      const actionFilterText = event.target.value
-      dispatch(setActionFilterText({
-        actionFilterText
-      }))
-    }
-
-    // Debounce for better usability
-    const debouncedOnActionFilterTextChange = debounce(onActionFilterTextChange, DEBOUNCE_TIME)
-
     const theme = this._getTheme()
-    const filterableStates = []
-
-    if (actions) {
-      stagedActionIds.forEach(actionId => {
-        const action = actionsById[actionId]
+    const filterableStates = actions && stagedActionIds
+      .filter(actionId => {
+        const actionMetadata = actionsById[actionId]
         const monitorStateAction = actions[actionId]
 
-        if (
+        return (
           monitorStateAction &&
           (
             !actionFilterText ||
-            action.action.type.match(createRegExpFromFilterText(actionFilterText))
+            actionMetadata.action.type.match(
+              createRegExpFromFilterText(actionFilterText)
+            )
           )
-        ) {
-          const {
-            filterByKeys,
-            filterByValues,
-            filteredState,
-            filterText
-          } = monitorStateAction
-
-          filterableStates.push(
-            <FilterableState
-              key={actionId}
-              action={action}
-              actionId={actionId}
-              dispatch={dispatch}
-              filterByKeys={filterByKeys}
-              filterByValues={filterByValues}
-              filteredState={filteredState}
-              filterText={filterText}
-              theme={theme}
-            />
-          )
-        }
+        )
       })
-    }
+      .map(actionId => {
+        const actionMetadata = actionsById[actionId]
+        const monitorStateAction = actions[actionId]
+
+        return (
+          <FilterableState
+            key={actionId}
+            action={actionMetadata.action}
+            actionId={actionId}
+            dispatch={dispatch}
+            monitorStateAction={monitorStateAction}
+            theme={theme}
+          />
+        )
+      })
 
     return (
       <div
@@ -116,24 +97,11 @@ export default class FilterableLogMonitor extends Component {
           color: theme.base07
         }}
       >
-        <div
-          className={styles.filterActionsHeader}
-          style={{
-            backgroundColor: theme.base01
-          }}
-        >
-          <input
-            className={styles.input}
-            style={{
-              backgroundColor: theme.base06,
-              color: theme.base00
-            }}
-            type='text'
-            placeholder='Filter actions by type..'
-            defaultValue={actionFilterText}
-            onChange={debouncedOnActionFilterTextChange}
-          />
-        </div>
+        <ActionFilter
+          actionFilterText={actionFilterText}
+          dispatch={dispatch}
+          theme={theme}
+        />
         <div className={styles.filterableStates}>
           {filterableStates}
         </div>

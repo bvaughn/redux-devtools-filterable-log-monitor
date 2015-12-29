@@ -1,14 +1,15 @@
-export const BUILD_SEARCH_INDEX = '@@redux-devtools-filterable-log-monitor/BUILD_SEARCH_INDEX'
+export const ADD_ACTION_METADATA = '@@redux-devtools-filterable-log-monitor/ADD_ACTION_METADATA'
 export const SET_ACTION_FILTER_BY_TEXT = '@@redux-devtools-filterable-log-monitor/SET_ACTION_FILTER_BY_TEXT'
 export const SET_FILTER_BY_KEYS = '@@redux-devtools-filterable-log-monitor/SET_FILTER_BY_KEYS'
 export const SET_FILTER_BY_VALUES = '@@redux-devtools-filterable-log-monitor/SET_FILTER_BY_VALUES'
 export const SET_FILTER_TEXT = '@@redux-devtools-filterable-log-monitor/SET_FILTER_TEXT'
 
-export function buildSearchIndex ({ actionId, appState }) {
+export function addActionMetadata ({ actionId, appState }) {
   return {
-    type: BUILD_SEARCH_INDEX,
+    type: ADD_ACTION_METADATA,
     actionId,
-    appState
+    appState,
+    time: new Date()
   }
 }
 

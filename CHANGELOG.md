@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0
+Added created-at time to action-type header to assist with debugging.
+Also added media queries to help with smaller browser sizes.
+
 ## 0.3.0
 Added top-level filter for actions, allowing them to be filtered by type.
 

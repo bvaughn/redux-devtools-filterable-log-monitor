@@ -1,5 +1,5 @@
 import {
-  BUILD_SEARCH_INDEX,
+  ADD_ACTION_METADATA,
   SET_ACTION_FILTER_BY_TEXT,
   SET_FILTER_BY_KEYS,
   SET_FILTER_BY_VALUES,
@@ -12,9 +12,9 @@ const State = () => ({
 })
 
 const reducers = {
-  [BUILD_SEARCH_INDEX] (state, action) {
-    const { actionId, appState } = action
-    return updateAction(state, actionId, { appState })
+  [ADD_ACTION_METADATA] (state, action) {
+    const { actionId, appState, time } = action
+    return updateAction(state, actionId, { appState, time })
   },
 
   [SET_ACTION_FILTER_BY_TEXT] (state, action) {
@@ -54,7 +54,8 @@ function updateAction (state, actionId, props) {
       filterByKeys: false,
       filterByValues: false,
       filteredState: {},
-      filterText: ''
+      filterText: '',
+      time: null
     }
   }
 

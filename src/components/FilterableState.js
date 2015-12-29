@@ -7,10 +7,7 @@ FilterableState.propTypes = {
   action: PropTypes.object.isRequired,
   actionId: PropTypes.any.isRequired,
   dispatch: PropTypes.func.isRequired,
-  filterByKeys: PropTypes.bool.isRequired,
-  filterByValues: PropTypes.bool.isRequired,
-  filteredState: PropTypes.object.isRequired,
-  filterText: PropTypes.string.isRequired,
+  monitorStateAction: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired
 }
 
@@ -18,21 +15,18 @@ export default function FilterableState ({
   action,
   actionId,
   dispatch,
-  filterByKeys,
-  filterByValues,
-  filteredState,
-  filterText,
+  monitorStateAction,
   theme
 }) {
+  const { filteredState } = monitorStateAction
+
   return (
     <div>
       <FilterHeader
         action={action}
         actionId={actionId}
         dispatch={dispatch}
-        filterByKeys={filterByKeys}
-        filterByValues={filterByValues}
-        filterText={filterText}
+        monitorStateAction={monitorStateAction}
         theme={theme}
       />
       <JSONTree

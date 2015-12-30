@@ -33,7 +33,12 @@ a:hover {
   color: white;
   margin-right: .5em;
   margin-bottom: .5em;
+  cursor: pointer;
 }
+.Button:hover {
+  background-color: #000000;
+}
+
 .update {
   color: #6FB3D2;
   margin-right: .5em;

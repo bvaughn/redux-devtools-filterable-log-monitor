@@ -2,16 +2,18 @@
 import React, { PropTypes } from 'react'
 import JSONTree from 'react-json-tree'
 import FilterHeader from './FilterHeader'
-import Highlighter from 'react-highlight-words'
+import Highlighter from 'react-highlighter'
+import { createRegExpFromFilterText } from '../utils'
 import styles from './FilterableState.css'
 
 function highlightMatches (filterText, value) {
   return (
     <Highlighter
-      highlightClassName={styles.highlight}
-      searchWords={[filterText]}
-      textToHighlight={value.toString()}
-    />
+      matchClass={styles.highlight}
+      search={createRegExpFromFilterText(filterText)}
+    >
+      {value.toString()}
+    </Highlighter>
   )
 }
 

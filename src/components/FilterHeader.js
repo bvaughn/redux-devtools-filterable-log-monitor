@@ -3,7 +3,8 @@ import React, { PropTypes } from 'react'
 import {
   setFilterByKeys,
   setFilterByValues,
-  setFilterText
+  setFilterText,
+  setExpanded
 } from '../actions'
 import debounce from 'lodash.debounce'
 import styles from './FilterHeader.css'
@@ -27,6 +28,7 @@ export default function FilterHeader ({
   theme
 }) {
   const {
+    expanded,
     filterByKeys,
     filterByValues,
     filterText,
@@ -57,8 +59,19 @@ export default function FilterHeader ({
     }))
   }
 
+  function toggleExpanded () {
+    dispatch(setExpanded({
+      actionId,
+      expanded: !expanded
+    }))
+  }
+
   // Debounce for better usability
   const debouncedOnFilterTextChange = debounce(onFilterTextChange, DEBOUNCE_TIME)
+
+  const expandedArrowClassName = expanded
+    ? `${styles.expandedArrow} ${styles.expandedArrowOpen}`
+    : styles.expandedArrow
 
   return (
     <div className={styles.FilterHeader}>
@@ -70,8 +83,17 @@ export default function FilterHeader ({
         }}
       >
         <div
+          className={expandedArrowClassName}
+          style={{
+            borderTopColor: expanded ? theme.base06 : theme.base05
+          }}
+          onClick={toggleExpanded}
+        />
+
+        <div
           className={styles.actionType}
           title={action.type}
+          onClick={toggleExpanded}
         >
           {action.type}
 
@@ -114,7 +136,7 @@ export default function FilterHeader ({
         </div>
       </div>
 
-      {(filterByKeys || filterByValues) &&
+      {expanded &&
         <div
           className={styles.filterContainer}
           style={{

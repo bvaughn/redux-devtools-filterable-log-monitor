@@ -3,6 +3,7 @@ export const SET_ACTION_FILTER_BY_TEXT = '@@redux-devtools-filterable-log-monito
 export const SET_FILTER_BY_KEYS = '@@redux-devtools-filterable-log-monitor/SET_FILTER_BY_KEYS'
 export const SET_FILTER_BY_VALUES = '@@redux-devtools-filterable-log-monitor/SET_FILTER_BY_VALUES'
 export const SET_FILTER_TEXT = '@@redux-devtools-filterable-log-monitor/SET_FILTER_TEXT'
+export const TOGGLE_EXPANDED = '@@redux-devtools-filterable-log-monitor/TOGGLE_EXPANDED'
 
 export function addActionMetadata ({ actionId, appState }) {
   return {
@@ -41,5 +42,13 @@ export function setFilterText ({ actionId, filterText }) {
     type: SET_FILTER_TEXT,
     actionId,
     filterText
+  }
+}
+
+export function setExpanded ({ actionId, expanded }) {
+  return {
+    type: TOGGLE_EXPANDED,
+    actionId,
+    expanded
   }
 }

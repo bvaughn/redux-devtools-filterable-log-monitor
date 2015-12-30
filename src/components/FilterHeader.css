@@ -5,7 +5,23 @@
 
 .actionTypeAndFilterByRow {
   display: flex;
+  align-items: center;
   padding: .5em;
+}
+
+.expandedArrow {
+  display: inline-block;
+  margin-right: 5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top-width: 5px;
+  border-top-style: solid;
+  cursor: pointer;
+  transition: 150ms;
+  transform: rotateZ(-90deg);
+},
+.expandedArrowOpen {
+  transform: rotateZ(0deg);
 }
 
 .filterByOptions {
@@ -21,6 +37,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  cursor: pointer;
 }
 @media (max-width: 1024px) {
   .actionType {

@@ -18,10 +18,14 @@ export default function FilterableState ({
   monitorStateAction,
   theme
 }) {
-  const { filteredState } = monitorStateAction
+  const { expanded, filteredState } = monitorStateAction
 
   return (
-    <div>
+    <div
+      style={{
+        borderBottom: `1px solid ${theme.base00}`
+      }}
+    >
       <FilterHeader
         action={action}
         actionId={actionId}
@@ -29,10 +33,18 @@ export default function FilterableState ({
         monitorStateAction={monitorStateAction}
         theme={theme}
       />
-      <JSONTree
-        data={filteredState}
-        theme={theme}
-      />
+      {expanded &&
+        <JSONTree
+          data={filteredState}
+          style={{
+            marginTop: 0,
+            marginBottom: 0,
+            marginLeft: 0,
+            marginRight: 0
+          }}
+          theme={theme}
+        />
+      }
     </div>
   )
 }

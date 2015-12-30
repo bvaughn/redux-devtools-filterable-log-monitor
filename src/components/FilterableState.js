@@ -9,7 +9,7 @@ function highlightMatches (filterText, value) {
   return (
     <Highlighter
       highlightClassName={styles.highlight}
-      searchWords={filterText.split('\s')}
+      searchWords={[filterText]}
       textToHighlight={value.toString()}
     />
   )
@@ -37,11 +37,11 @@ export default function FilterableState ({
     filterText
   } = monitorStateAction
 
-  const highlightLabel = filterByKeys && filterText
+  const labelRenderer = filterByKeys && filterText
     ? value => highlightMatches(filterText, value)
     : value => value
 
-  const highlightValue = filterByValues && filterText
+  const valueRenderer = filterByValues && filterText
     ? value => highlightMatches(filterText, value)
     : value => value
 
@@ -56,9 +56,9 @@ export default function FilterableState ({
       />
       <JSONTree
         data={filteredState}
-        getRenderedLabel={highlightLabel}
-        getRenderedValue={highlightValue}
+        labelRenderer={labelRenderer}
         theme={theme}
+        valueRenderer={valueRenderer}
       />
     </div>
   )

@@ -3,7 +3,8 @@ import {
   SET_ACTION_FILTER_BY_TEXT,
   SET_FILTER_BY_KEYS,
   SET_FILTER_BY_VALUES,
-  SET_FILTER_TEXT
+  SET_FILTER_TEXT,
+  TOGGLE_EXPANDED
 } from './actions'
 import { getFilteredNodes } from './utils'
 
@@ -38,6 +39,11 @@ const reducers = {
   [SET_FILTER_TEXT] (state, action) {
     const { actionId, filterText } = action
     return updateAction(state, actionId, { filterText })
+  },
+
+  [TOGGLE_EXPANDED] (state, action) {
+    const { actionId, expanded } = action
+    return updateAction(state, actionId, { expanded }, false)
   }
 }
 
@@ -47,12 +53,13 @@ export default function reducer (props, state = new State(), action) {
     : state
 }
 
-function updateAction (state, actionId, props) {
+function updateAction (state, actionId, props, updateFilter = true) {
   if (!state.actions[actionId]) {
     state.actions[actionId] = {
       appState: {},
-      filterByKeys: false,
-      filterByValues: false,
+      expanded: false,
+      filterByKeys: true,
+      filterByValues: true,
       filteredState: {},
       filterText: '',
       time: null
@@ -63,7 +70,10 @@ function updateAction (state, actionId, props) {
     ...state.actions[actionId],
     ...props
   }
-  state.actions[actionId].filteredState = getFilteredNodes(state.actions[actionId])
+
+  if (updateFilter) {
+    state.actions[actionId].filteredState = getFilteredNodes(state.actions[actionId])
+  }
 
   return state
 }

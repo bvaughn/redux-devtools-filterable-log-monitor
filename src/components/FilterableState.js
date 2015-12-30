@@ -33,6 +33,7 @@ export default function FilterableState ({
   theme
 }) {
   const {
+    expanded,
     filterByKeys,
     filterByValues,
     filteredState,
@@ -48,7 +49,11 @@ export default function FilterableState ({
     : value => value
 
   return (
-    <div>
+    <div
+      style={{
+        borderBottom: `1px solid ${theme.base00}`
+      }}
+    >
       <FilterHeader
         action={action}
         actionId={actionId}
@@ -56,12 +61,20 @@ export default function FilterableState ({
         monitorStateAction={monitorStateAction}
         theme={theme}
       />
-      <JSONTree
-        data={filteredState}
-        labelRenderer={labelRenderer}
-        theme={theme}
-        valueRenderer={valueRenderer}
-      />
+      {expanded &&
+        <JSONTree
+          data={filteredState}
+          labelRenderer={labelRenderer}
+          style={{
+            marginTop: 0,
+            marginBottom: 0,
+            marginLeft: 0,
+            marginRight: 0
+          }}
+          theme={theme}
+          valueRenderer={valueRenderer}
+        />
+      }
     </div>
   )
 }

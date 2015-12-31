@@ -1,6 +1,11 @@
 <img src='https://cloud.githubusercontent.com/assets/29597/12027069/779d8f3c-ad8f-11e5-8bac-2f6e8eed7192.png' width='250' height='123' alt='redux devtools filterable log monitor logo'/>
 =========================
 
+![NPM version](https://img.shields.io/npm/v/redux-devtools-filterable-log-monitor.svg)
+![NPM license](https://img.shields.io/npm/l/redux-devtools-filterable-log-monitor.svg)
+![NPM total downloads](https://img.shields.io/npm/dt/redux-devtools-filterable-log-monitor.svg)
+![NPM monthly downloads](https://img.shields.io/npm/dm/redux-devtools-filterable-log-monitor.svg)
+
 Filterable tree view monitor for [Redux DevTools](https://github.com/gaearon/redux-devtools).
 
 Actions are collapsed by default but they can be expanded by clicking on the action type. Strings and regular expressions can be used to filter actions by type as well as to filter the state tree by nodes or values.

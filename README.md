@@ -2,9 +2,12 @@
 =========================
 
 Filterable tree view monitor for [Redux DevTools](https://github.com/gaearon/redux-devtools).
-Check out a [simple demo application here](https://bvaughn.github.io/redux-devtools-filterable-log-monitor).
 
-<img width='624' height='448' alt='Demo GIF' src='https://cloud.githubusercontent.com/assets/29597/12024861/a510cb96-ad76-11e5-9ce3-78f46a2f6837.gif'/>
+Actions are collapsed by default but they can be expanded by clicking on the action type. Strings and regular expressions can be used to filter actions by type as well as to filter the state tree by nodes or values.
+
+Check out the [demo application here](https://bvaughn.github.io/redux-devtools-filterable-log-monitor).
+
+<img width='352' height='298' alt='Demo GIF' src='https://cloud.githubusercontent.com/assets/29597/12053279/792d746e-aee5-11e5-8fa0-bddaa8be4d2c.gif'/>
 
 Installation
 ------------

@@ -7,8 +7,8 @@ import {
   setExpanded
 } from '../actions'
 import debounce from 'lodash.debounce'
-import styles from './FilterHeader.css'
 import 'date-format-lite'
+import MediaQuery from 'react-responsive'
 
 FilterHeader.propTypes = {
   action: PropTypes.object.isRequired,
@@ -69,51 +69,89 @@ export default function FilterHeader ({
   // Debounce for better usability
   const debouncedOnFilterTextChange = debounce(onFilterTextChange, DEBOUNCE_TIME)
 
-  const expandedArrowClassName = expanded
-    ? `${styles.expandedArrow} ${styles.expandedArrowOpen}`
-    : styles.expandedArrow
-
   return (
-    <div className={styles.FilterHeader}>
+    <div
+      style={{
+        flex: '0 0 auto',
+        alignItems: 'center'
+      }}
+    >
       <div
-        className={styles.actionTypeAndFilterByRow}
         style={{
+          display: 'flex',
+          alignItems: 'center',
+          padding: '.5em',
           backgroundColor: theme.base02,
           color: theme.base06
         }}
       >
         <div
-          className={expandedArrowClassName}
           style={{
+            display: 'inline-block',
+            marginRight: '5px',
+            borderLeft: '5px solid transparent',
+            borderRight: '5px solid transparent',
+            borderTopWidth: '5px',
+            borderTopStyle: 'solid',
+            cursor: 'pointer',
+            transition: '150ms',
+            transform: expanded ? 'rotateZ(0deg)' : 'rotateZ(-90deg)',
             borderTopColor: expanded ? theme.base06 : theme.base05
           }}
           onClick={toggleExpanded}
         />
 
         <div
-          className={styles.actionType}
           title={action.type}
           onClick={toggleExpanded}
+          style={{
+            flex: '1 1 auto',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            overflowX: 'hidden',
+            cursor: 'pointer'
+          }}
         >
           {action.type}
 
-          <span
-            className={styles.actionTime}
-            style={{
-              color: theme.base05
-            }}
-          >
-            {`(${time.format('H:mm:ss A')})`}
-          </span>
+          <MediaQuery query='(min-width: 1024px)'>
+            <span
+              style={{
+                color: theme.base05,
+                fontSize: '.6em',
+                marginLeft: '.6em'
+              }}
+            >
+              {`(${time.format('H:mm:ss A')})`}
+            </span>
+          </MediaQuery>
         </div>
 
-        <div className={styles.filterByOptions}>
-          <div className={styles.filterByLabel}>
-            Filter by
-          </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flex: '0 0 auto',
+            marginLeft: '.5em',
+            fontSize: '.8em'
+          }}
+        >
+          <MediaQuery query='(min-width: 1024px)'>
+            <div
+              style={{
+                flex: '0 0 auto'
+              }}
+            >
+              Filter by
+            </div>
+          </MediaQuery>
           <label
-            className={styles.label}
-            style={{ color: theme.base0D }}
+            style={{
+              flex: '0 0 auto',
+              marginLeft: '.5em',
+              fontWeight: 'normal',
+              color: theme.base0D
+            }}
           >
             <input
               type='checkbox'
@@ -123,8 +161,12 @@ export default function FilterHeader ({
             Keys
           </label>
           <label
-            className={styles.label}
-            style={{ color: theme.base0B }}
+            style={{
+              flex: '0 0 auto',
+              marginLeft: '.5em',
+              fontWeight: 'normal',
+              color: theme.base0B
+            }}
           >
             <input
               type='checkbox'
@@ -138,15 +180,26 @@ export default function FilterHeader ({
 
       {expanded &&
         <div
-          className={styles.filterContainer}
           style={{
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignItems: 'center',
             backgroundColor: theme.base01,
-            color: theme.base06
+            color: theme.base06,
+            padding: '.75em',
+            fontSize: '.65em',
+            textTransform: 'uppercase',
+            fontWeight: 'bold'
           }}
         >
           <input
-            className={styles.input}
             style={{
+              flex: '0 0 100%',
+              borderRadius: '.25em',
+              lineHeight: '3em',
+              padding: '0 .75em',
+              border: 'none',
               backgroundColor: theme.base06,
               color: theme.base00
             }}

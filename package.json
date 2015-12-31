@@ -106,8 +106,10 @@
   },
   "dependencies": {
     "lodash.debounce": "^3.1.1",
-    "react-json-tree": "^0.3.0",
+    "react-highlighter": "git://github.com/bvaughn/react-highlighter.git",
+    "react-json-tree": "^0.4.0",
     "react-pure-render": "^1.0.2",
+    "react-responsive": "^1.0.1",
     "redux-devtools-themes": "^1.0.0"
   }
 }

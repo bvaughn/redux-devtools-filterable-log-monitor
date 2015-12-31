@@ -7,7 +7,6 @@ import { addActionMetadata } from './actions'
 import ActionFilter from './components/ActionFilter'
 import FilterableState from './components/FilterableState'
 import { createRegExpFromFilterText } from './utils'
-import styles from './FilterableLogMonitor.css'
 
 export default class FilterableLogMonitor extends Component {
   static shouldComponentUpdate = shouldPureComponentUpdate
@@ -91,10 +90,19 @@ export default class FilterableLogMonitor extends Component {
 
     return (
       <div
-        className={styles.FilterableLogMonitor}
         style={{
+          position: 'absolute',
+          right: '0',
+          top: '0',
+          bottom: '0',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
           backgroundColor: theme.base00,
-          color: theme.base07
+          color: theme.base07,
+          fontSize: '14px',
+          minWidth: '200px'
         }}
       >
         <ActionFilter
@@ -102,7 +110,12 @@ export default class FilterableLogMonitor extends Component {
           dispatch={dispatch}
           theme={theme}
         />
-        <div className={styles.filterableStates}>
+        <div
+          style={{
+            flex: '1',
+            overflowY: 'scroll'
+          }}
+        >
           {filterableStates}
         </div>
       </div>

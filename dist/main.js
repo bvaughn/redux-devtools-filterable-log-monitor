@@ -503,9 +503,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      node = node.toJS();
 	    }
 	
-	    return Object.values(node).some(function (value) {
-	      return searchValues(value, regExp);
-	    });
+	    for (var key in node) {
+	      if (searchValues(node[key], regExp)) {
+	        return true;
+	      }
+	    }
+	
+	    return false;
 	  }
 	}
 	
@@ -2408,13 +2412,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _utils = __webpack_require__(6);
 	
-	function highlightMatches(filterText, value, theme) {
+	function highlightMatches(filterText, value, backgroundColor, color) {
 	  return _react2['default'].createElement(
 	    _reactHighlighter2['default'],
 	    {
 	      matchStyle: {
-	        backgroundColor: theme.base06,
-	        color: theme.base00
+	        display: 'inline-block',
+	        padding: '3px 0',
+	        margin: '-3px 0',
+	        fontWeight: 'normal',
+	        backgroundColor: backgroundColor,
+	        color: color
 	      },
 	      search: (0, _utils.createRegExpFromFilterText)(filterText)
 	    },
@@ -2443,13 +2451,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var filterText = monitorStateAction.filterText;
 	
 	  var labelRenderer = filterByKeys && filterText ? function (value) {
-	    return highlightMatches(filterText, value, theme);
+	    return highlightMatches(filterText, value, theme.base0D, theme.base00);
 	  } : function (value) {
 	    return value;
 	  };
 	
 	  var valueRenderer = filterByValues && filterText ? function (value) {
-	    return highlightMatches(filterText, value, theme);
+	    return highlightMatches(filterText, value, theme.base0B, theme.base00);
 	  } : function (value) {
 	    return value;
 	  };
@@ -7072,16 +7080,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ]).isRequired,
 	    caseSensitive: React.PropTypes.bool,
 	    matchElement: React.PropTypes.string,
-	    matchClass: React.PropTypes.string,
-	    matchStyle: React.PropTypes.object
+	    matchClass: React.PropTypes.string
 	  },
 	
 	  getDefaultProps: function() {
 	    return {
 	      caseSensitive: false,
 	      matchElement: 'strong',
-	      matchClass: 'highlight',
-	      matchStyle: {}
+	      matchClass: 'highlight'
 	    }
 	  },
 	
@@ -7231,11 +7237,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  renderHighlight: function(string) {
 	    this.count++;
-	    return React.DOM[this.props.matchElement]({
-	      key: this.count,
-	      className: this.props.matchClass,
-	      style: this.props.matchStyle
-	    }, string);
+	    return React.DOM[this.props.matchElement]({'key': this.count, 'className': this.props.matchClass}, string);
 	  }
 	});
 	

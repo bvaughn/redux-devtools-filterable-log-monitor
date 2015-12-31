@@ -107,7 +107,7 @@
   "dependencies": {
     "lodash.debounce": "^3.1.1",
     "react-highlighter": "^0.2.2",
-    "react-json-tree": "^0.3.0",
+    "react-json-tree": "^0.4.0",
     "react-pure-render": "^1.0.2",
     "react-responsive": "^1.0.1",
     "redux-devtools-themes": "^1.0.0"

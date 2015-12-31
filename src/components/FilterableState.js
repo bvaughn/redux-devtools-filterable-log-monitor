@@ -5,12 +5,16 @@ import FilterHeader from './FilterHeader'
 import Highlighter from 'react-highlighter'
 import { createRegExpFromFilterText } from '../utils'
 
-function highlightMatches (filterText, value, theme) {
+function highlightMatches (filterText, value, backgroundColor, color) {
   return (
     <Highlighter
       matchStyle={{
-        backgroundColor: theme.base06,
-        color: theme.base00
+        display: 'inline-block',
+        padding: '3px 0',
+        margin: '-3px 0',
+        fontWeight: 'normal',
+        backgroundColor,
+        color
       }}
       search={createRegExpFromFilterText(filterText)}
     >
@@ -43,11 +47,11 @@ export default function FilterableState ({
   } = monitorStateAction
 
   const labelRenderer = filterByKeys && filterText
-    ? value => highlightMatches(filterText, value, theme)
+    ? value => highlightMatches(filterText, value, theme.base0D, theme.base00)
     : value => value
 
   const valueRenderer = filterByValues && filterText
-    ? value => highlightMatches(filterText, value, theme)
+    ? value => highlightMatches(filterText, value, theme.base0B, theme.base00)
     : value => value
 
   return (

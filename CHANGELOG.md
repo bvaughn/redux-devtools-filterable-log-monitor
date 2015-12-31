@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+Added visual highlighting for substring matches within keys/values.
+Collapse headers by default so that new actions load more efficiently.
+Moved styles from CSS files to inline to better support out-of-the-box Browserify usage.
+Removed dependency on `Object.values` to simplify external dependencies.
+
 ## 0.4.0
 Added created-at time to action-type header to assist with debugging.
 Also added media queries to help with smaller browser sizes.

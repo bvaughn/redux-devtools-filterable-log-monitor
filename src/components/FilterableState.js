@@ -4,12 +4,14 @@ import JSONTree from 'react-json-tree'
 import FilterHeader from './FilterHeader'
 import Highlighter from 'react-highlighter'
 import { createRegExpFromFilterText } from '../utils'
-import styles from './FilterableState.css'
 
-function highlightMatches (filterText, value, className) {
+function highlightMatches (filterText, value, theme) {
   return (
     <Highlighter
-      matchClass={styles[className]}
+      matchStyle={{
+        backgroundColor: theme.base06,
+        color: theme.base00
+      }}
       search={createRegExpFromFilterText(filterText)}
     >
       {value.toString()}
@@ -41,11 +43,11 @@ export default function FilterableState ({
   } = monitorStateAction
 
   const labelRenderer = filterByKeys && filterText
-    ? value => highlightMatches(filterText, value, 'highlightKey')
+    ? value => highlightMatches(filterText, value, theme)
     : value => value
 
   const valueRenderer = filterByValues && filterText
-    ? value => highlightMatches(filterText, value, 'highlightValue')
+    ? value => highlightMatches(filterText, value, theme)
     : value => value
 
   return (

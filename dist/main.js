@@ -7080,14 +7080,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ]).isRequired,
 	    caseSensitive: React.PropTypes.bool,
 	    matchElement: React.PropTypes.string,
-	    matchClass: React.PropTypes.string
+	    matchClass: React.PropTypes.string,
+	    matchStyle: React.PropTypes.object
 	  },
 	
 	  getDefaultProps: function() {
 	    return {
 	      caseSensitive: false,
 	      matchElement: 'strong',
-	      matchClass: 'highlight'
+	      matchClass: 'highlight',
+	      matchStyle: {}
 	    }
 	  },
 	
@@ -7237,7 +7239,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  renderHighlight: function(string) {
 	    this.count++;
-	    return React.DOM[this.props.matchElement]({'key': this.count, 'className': this.props.matchClass}, string);
+	    return React.DOM[this.props.matchElement]({
+	      key: this.count,
+	      className: this.props.matchClass,
+	      style: this.props.matchStyle
+	    }, string);
 	  }
 	});
 	

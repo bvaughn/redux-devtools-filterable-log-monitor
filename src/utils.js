@@ -22,7 +22,13 @@ function searchValues (node, regExp) {
       node = node.toJS()
     }
 
-    return Object.values(node).some(value => searchValues(value, regExp))
+    for (var key in node) {
+      if (searchValues(node[key], regExp)) {
+        return true
+      }
+    }
+
+    return false
   }
 }
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.1
+Updated to `react-highlighter` version 0.2.3 instead of forked build now that custom match style is supported.
+
 ## 0.5.0
 Added visual highlighting for substring matches within keys/values.
 Collapse headers by default so that new actions load more efficiently.

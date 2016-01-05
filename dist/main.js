@@ -7066,6 +7066,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var React = __webpack_require__(3);
 	var RegExpPropType = __webpack_require__(162);
+	var escapeStringRegexp = __webpack_require__(163);
 	
 	
 	var Highlighter = React.createClass({displayName: "Highlighter",
@@ -7150,7 +7151,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      flags +='i';
 	    }
 	
-	    return new RegExp(this.props.search, flags);
+	    var search = this.props.search;
+	    if (typeof this.props.search === 'string') {
+	      search = escapeStringRegexp(search);
+	    }
+	
+	    return new RegExp(search, flags);
 	  },
 	
 	  /**
@@ -7266,6 +7272,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	module.exports = regExpPropType;
+
+
+/***/ },
+/* 163 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
+	
+	module.exports = function (str) {
+		if (typeof str !== 'string') {
+			throw new TypeError('Expected a string');
+		}
+	
+		return str.replace(matchOperatorsRe, '\\$&');
+	};
 
 
 /***/ }

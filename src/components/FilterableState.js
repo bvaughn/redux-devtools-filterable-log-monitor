@@ -5,20 +5,18 @@ import FilterHeader from './FilterHeader'
 import Highlighter from 'react-highlighter'
 import { createRegExpFromFilterText } from '../utils'
 
-function highlightMatches (filterText, value, backgroundColor, color) {
+function highlightMatches (filterText, value) {
   return (
     <Highlighter
       matchStyle={{
         display: 'inline-block',
         padding: '3px 0',
         margin: '-3px 0',
-        fontWeight: 'normal',
-        backgroundColor,
-        color
+        backgroundColor: 'rgba(255, 255, 255, .1)'
       }}
       search={createRegExpFromFilterText(filterText)}
     >
-      {value.toString()}
+      {value}
     </Highlighter>
   )
 }
@@ -47,11 +45,11 @@ export default function FilterableState ({
   } = monitorStateAction
 
   const labelRenderer = filterByKeys && filterText
-    ? value => highlightMatches(filterText, value, theme.base0D, theme.base00)
+    ? value => highlightMatches(filterText, value)
     : value => value
 
   const valueRenderer = filterByValues && filterText
-    ? value => highlightMatches(filterText, value, theme.base0B, theme.base00)
+    ? (value, nodeType) => highlightMatches(filterText, value)
     : value => value
 
   return (

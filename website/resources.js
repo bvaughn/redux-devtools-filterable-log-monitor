@@ -4,6 +4,17 @@ import Immutable from 'immutable'
 
 export const State = () => Immutable.Map({
   array: [],
+  basicTypes: {
+    array: ['a', 1],
+    boolean: true,
+    function: function abc () {
+      console.log('message')
+    },
+    null: null,
+    number: 1.2,
+    string: 'I like strings',
+    undefined: undefined
+  },
   list: Immutable.List(),
   map: Immutable.Map(),
   object: {}

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.2
+Updated match highlighting logic to stay in sync with changes in recent react-json-tree 0.5.1 release.
+
 ## 0.5.1
 Updated to `react-highlighter` version 0.2.3 instead of forked build now that custom match style is supported.
 

@@ -12,7 +12,7 @@ Actions are collapsed by default but they can be expanded by clicking on the act
 
 Check out the [demo application here](https://bvaughn.github.io/redux-devtools-filterable-log-monitor).
 
-<img width='348' height='286' alt='Demo GIF' src='https://cloud.githubusercontent.com/assets/29597/12061839/96898fe2-af5e-11e5-8e6a-636379a81c10.gif'/>
+<img width='310' height='328' alt='Demo GIF' src='https://cloud.githubusercontent.com/assets/29597/12283271/c65c5948-b959-11e5-8d38-c4760d23339d.gif'/>
 
 Installation
 ------------

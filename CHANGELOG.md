@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.0
+Added (filterable) actions to log monitor in addition to state.
+
 ## 0.5.2
 Updated match highlighting logic to stay in sync with changes in recent react-json-tree 0.5.1 release.
 

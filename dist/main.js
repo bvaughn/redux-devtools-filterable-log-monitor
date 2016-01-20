@@ -139,15 +139,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
 	      var _props = this.props;
+	      var actionsById = _props.actionsById;
 	      var dispatch = _props.dispatch;
 	      var stagedActionIds = _props.stagedActionIds;
 	
 	      if (nextProps.stagedActionIds !== stagedActionIds) {
 	        for (var i = stagedActionIds.length; i < nextProps.stagedActionIds.length; i++) {
 	          var actionId = nextProps.stagedActionIds[i];
+	          var action = actionsById[actionId];
 	          var appState = nextProps.computedStates[i].state;
 	
-	          dispatch((0, _actions.addActionMetadata)({ actionId: actionId, appState: appState }));
+	          dispatch((0, _actions.addActionMetadata)({ action: action, actionId: actionId, appState: appState }));
 	        }
 	      }
 	    }
@@ -159,18 +161,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var dispatch = _props2.dispatch;
 	      var _props2$monitorState = _props2.monitorState;
 	      var actionFilterText = _props2$monitorState.actionFilterText;
-	      var actions = _props2$monitorState.actions;
+	      var actionIdToDatumMap = _props2$monitorState.actionIdToDatumMap;
 	      var stagedActionIds = _props2.stagedActionIds;
 	
 	      var theme = this._getTheme();
-	      var filterableStates = actions && stagedActionIds.filter(function (actionId) {
+	      var filterableStates = actionIdToDatumMap && stagedActionIds.filter(function (actionId) {
 	        var actionMetadata = actionsById[actionId];
-	        var monitorStateAction = actions[actionId];
+	        var monitorStateAction = actionIdToDatumMap[actionId];
 	
 	        return monitorStateAction && (!actionFilterText || actionMetadata.action.type.match((0, _utils.createRegExpFromFilterText)(actionFilterText)));
 	      }).map(function (actionId) {
 	        var actionMetadata = actionsById[actionId];
-	        var monitorStateAction = actions[actionId];
+	        var monitorStateAction = actionIdToDatumMap[actionId];
 	
 	        return _react2['default'].createElement(_componentsFilterableState2['default'], {
 	          key: actionId,
@@ -246,8 +248,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      computedStates: _react.PropTypes.array,
 	      dispatch: _react.PropTypes.func,
 	      monitorState: _react.PropTypes.shape({
-	        actionFilterText: _react.PropTypes.string,
-	        actions: _react.PropTypes.object
+	        actionIdToDatumMap: _react.PropTypes.object,
+	        actionFilterText: _react.PropTypes.string
 	      }),
 	      stagedActionIds: _react.PropTypes.array,
 	      theme: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.string])
@@ -297,69 +299,79 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var State = function State() {
 	  return {
-	    actions: {}
+	    actionIdToDatumMap: {}
 	  };
 	};
 	
-	var reducers = (_reducers = {}, _defineProperty(_reducers, _actions.ADD_ACTION_METADATA, function (state, action) {
-	  var actionId = action.actionId;
-	  var appState = action.appState;
-	  var time = action.time;
+	var reducers = (_reducers = {}, _defineProperty(_reducers, _actions.ADD_ACTION_METADATA, function (state, datum) {
+	  var action = datum.action;
+	  var actionId = datum.actionId;
+	  var appState = datum.appState;
+	  var time = datum.time;
 	
-	  return updateAction(state, actionId, { appState: appState, time: time });
-	}), _defineProperty(_reducers, _actions.SET_ACTION_FILTER_BY_TEXT, function (state, action) {
-	  var actionFilterText = action.actionFilterText;
+	  return updateAction(state, actionId, { action: action, appState: appState, time: time });
+	}), _defineProperty(_reducers, _actions.SET_ACTION_FILTER_BY_TEXT, function (state, datum) {
+	  var actionFilterText = datum.actionFilterText;
 	
 	  return _extends({}, state, {
 	    actionFilterText: actionFilterText
 	  });
-	}), _defineProperty(_reducers, _actions.SET_FILTER_BY_KEYS, function (state, action) {
-	  var actionId = action.actionId;
-	  var filterByKeys = action.filterByKeys;
+	}), _defineProperty(_reducers, _actions.SET_FILTER_BY_KEYS, function (state, datum) {
+	  var actionId = datum.actionId;
+	  var filterByKeys = datum.filterByKeys;
 	
 	  return updateAction(state, actionId, { filterByKeys: filterByKeys });
-	}), _defineProperty(_reducers, _actions.SET_FILTER_BY_VALUES, function (state, action) {
-	  var actionId = action.actionId;
-	  var filterByValues = action.filterByValues;
+	}), _defineProperty(_reducers, _actions.SET_FILTER_BY_VALUES, function (state, datum) {
+	  var actionId = datum.actionId;
+	  var filterByValues = datum.filterByValues;
 	
 	  return updateAction(state, actionId, { filterByValues: filterByValues });
-	}), _defineProperty(_reducers, _actions.SET_FILTER_TEXT, function (state, action) {
-	  var actionId = action.actionId;
-	  var filterText = action.filterText;
+	}), _defineProperty(_reducers, _actions.SET_FILTER_TEXT, function (state, datum) {
+	  var actionId = datum.actionId;
+	  var filterText = datum.filterText;
 	
 	  return updateAction(state, actionId, { filterText: filterText });
-	}), _defineProperty(_reducers, _actions.TOGGLE_EXPANDED, function (state, action) {
-	  var actionId = action.actionId;
-	  var expanded = action.expanded;
+	}), _defineProperty(_reducers, _actions.TOGGLE_EXPANDED, function (state, datum) {
+	  var actionId = datum.actionId;
+	  var expanded = datum.expanded;
 	
 	  return updateAction(state, actionId, { expanded: expanded }, false);
 	}), _reducers);
 	
-	function reducer(props, state, action) {
+	function reducer(props, state, datum) {
 	  if (state === undefined) state = new State();
 	
-	  return action.type in reducers ? reducers[action.type](state, action, props) : state;
+	  return datum.type in reducers ? reducers[datum.type](state, datum, props) : state;
 	}
 	
 	function updateAction(state, actionId, props) {
 	  var updateFilter = arguments.length <= 3 || arguments[3] === undefined ? true : arguments[3];
 	
-	  if (!state.actions[actionId]) {
-	    state.actions[actionId] = {
+	  if (!state.actionIdToDatumMap[actionId]) {
+	    state.actionIdToDatumMap[actionId] = {
+	      action: {},
 	      appState: {},
 	      expanded: false,
 	      filterByKeys: true,
 	      filterByValues: true,
+	      filteredActions: {},
 	      filteredState: {},
 	      filterText: '',
 	      time: null
 	    };
 	  }
 	
-	  state.actions[actionId] = _extends({}, state.actions[actionId], props);
+	  state.actionIdToDatumMap[actionId] = _extends({}, state.actionIdToDatumMap[actionId], props);
+	
+	  var datum = state.actionIdToDatumMap[actionId];
 	
 	  if (updateFilter) {
-	    state.actions[actionId].filteredState = (0, _utils.getFilteredNodes)(state.actions[actionId]);
+	    datum.filteredActions = (0, _utils.getFilteredNodes)(_extends({
+	      data: datum.action
+	    }, datum));
+	    datum.filteredState = (0, _utils.getFilteredNodes)(_extends({
+	      data: datum.appState
+	    }, datum));
 	  }
 	
 	  return state;
@@ -396,11 +408,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.TOGGLE_EXPANDED = TOGGLE_EXPANDED;
 	
 	function addActionMetadata(_ref) {
+	  var action = _ref.action;
 	  var actionId = _ref.actionId;
 	  var appState = _ref.appState;
 	
 	  return {
 	    type: ADD_ACTION_METADATA,
+	    action: action,
 	    actionId: actionId,
 	    appState: appState,
 	    time: new Date()
@@ -552,15 +566,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	function getFilteredNodes(_ref) {
-	  var _ref$appState = _ref.appState;
-	  var appState = _ref$appState === undefined ? {} : _ref$appState;
+	  var _ref$data = _ref.data;
+	  var data = _ref$data === undefined ? {} : _ref$data;
 	  var filterByKeys = _ref.filterByKeys;
 	  var filterByValues = _ref.filterByValues;
 	  var _ref$filterText = _ref.filterText;
 	  var filterText = _ref$filterText === undefined ? '' : _ref$filterText;
 	
 	  if (!filterByKeys && !filterByValues || !filterText) {
-	    return appState;
+	    return data;
 	  }
 	
 	  var regExp = createRegExpFromFilterText(filterText);
@@ -574,7 +588,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return keySearcher(key, value, regExp) || valueSearcher(value, regExp);
 	  };
 	
-	  return trimTree(appState, regExp, searchFunction);
+	  return trimTree(data, regExp, searchFunction);
 	}
 
 /***/ },
@@ -2445,6 +2459,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var expanded = monitorStateAction.expanded;
 	  var filterByKeys = monitorStateAction.filterByKeys;
 	  var filterByValues = monitorStateAction.filterByValues;
+	  var filteredActions = monitorStateAction.filteredActions;
 	  var filteredState = monitorStateAction.filteredState;
 	  var filterText = monitorStateAction.filterText;
 	
@@ -2460,6 +2475,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return value;
 	  };
 	
+	  var data = [{ title: 'Action', source: filteredActions }, { title: 'State', source: filteredState }];
+	
 	  return _react2['default'].createElement(
 	    'div',
 	    {
@@ -2474,17 +2491,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	      monitorStateAction: monitorStateAction,
 	      theme: theme
 	    }),
-	    expanded && _react2['default'].createElement(_reactJsonTree2['default'], {
-	      data: filteredState,
-	      labelRenderer: labelRenderer,
-	      style: {
-	        marginTop: 0,
-	        marginBottom: 0,
-	        marginLeft: 0,
-	        marginRight: 0
-	      },
-	      theme: theme,
-	      valueRenderer: valueRenderer
+	    expanded && data.map(function (data, index) {
+	      return _react2['default'].createElement(
+	        'div',
+	        { key: index },
+	        _react2['default'].createElement(
+	          'div',
+	          {
+	            style: {
+	              color: theme.base02,
+	              fontWeight: 'bold',
+	              margin: '.5rem 1rem 0',
+	              fontSize: 10,
+	              textTransform: 'uppercase'
+	            }
+	          },
+	          data.title
+	        ),
+	        _react2['default'].createElement(_reactJsonTree2['default'], {
+	          data: data.source,
+	          labelRenderer: labelRenderer,
+	          style: {
+	            marginTop: 0,
+	            marginBottom: 0,
+	            marginLeft: 0,
+	            marginRight: 0
+	          },
+	          theme: theme,
+	          valueRenderer: valueRenderer
+	        })
+	      );
 	    })
 	  );
 	}

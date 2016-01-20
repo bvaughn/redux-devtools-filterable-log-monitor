@@ -40,6 +40,7 @@ export default function FilterableState ({
     expanded,
     filterByKeys,
     filterByValues,
+    filteredActions,
     filteredState,
     filterText
   } = monitorStateAction
@@ -51,6 +52,11 @@ export default function FilterableState ({
   const valueRenderer = filterByValues && filterText
     ? (value, nodeType) => highlightMatches(filterText, value)
     : value => value
+
+  const data = [
+    { title: 'Action', source: filteredActions },
+    { title: 'State', source: filteredState }
+  ]
 
   return (
     <div
@@ -65,20 +71,33 @@ export default function FilterableState ({
         monitorStateAction={monitorStateAction}
         theme={theme}
       />
-      {expanded &&
-        <JSONTree
-          data={filteredState}
-          labelRenderer={labelRenderer}
-          style={{
-            marginTop: 0,
-            marginBottom: 0,
-            marginLeft: 0,
-            marginRight: 0
-          }}
-          theme={theme}
-          valueRenderer={valueRenderer}
-        />
-      }
+      {expanded && data.map((data, index) => (
+        <div key={index}>
+          <div
+            style={{
+              color: theme.base02,
+              fontWeight: 'bold',
+              margin: '.5rem 1rem 0',
+              fontSize: 10,
+              textTransform: 'uppercase'
+            }}
+          >
+            {data.title}
+          </div>
+          <JSONTree
+            data={data.source}
+            labelRenderer={labelRenderer}
+            style={{
+              marginTop: 0,
+              marginBottom: 0,
+              marginLeft: 0,
+              marginRight: 0
+            }}
+            theme={theme}
+            valueRenderer={valueRenderer}
+          />
+        </div>
+      ))}
     </div>
   )
 }

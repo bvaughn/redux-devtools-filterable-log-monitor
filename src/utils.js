@@ -73,13 +73,13 @@ export function createRegExpFromFilterText (filterText) {
 }
 
 export function getFilteredNodes ({
-  appState = {},
+  data = {},
   filterByKeys,
   filterByValues,
   filterText = ''
 }) {
   if (!filterByKeys && !filterByValues || !filterText) {
-    return appState
+    return data
   }
 
   const regExp = createRegExpFromFilterText(filterText)
@@ -87,5 +87,5 @@ export function getFilteredNodes ({
   const valueSearcher = filterByValues ? searchValues : () => false
   const searchFunction = (key, value, regExp) => keySearcher(key, value, regExp) || valueSearcher(value, regExp)
 
-  return trimTree(appState, regExp, searchFunction)
+  return trimTree(data, regExp, searchFunction)
 }

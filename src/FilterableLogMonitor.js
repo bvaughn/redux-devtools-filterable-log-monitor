@@ -18,8 +18,8 @@ export default class FilterableLogMonitor extends Component {
     computedStates: PropTypes.array,
     dispatch: PropTypes.func,
     monitorState: PropTypes.shape({
-      actionFilterText: PropTypes.string,
-      actions: PropTypes.object
+      actionIdToDatumMap: PropTypes.object,
+      actionFilterText: PropTypes.string
     }),
     stagedActionIds: PropTypes.array,
     theme: PropTypes.oneOfType([
@@ -33,14 +33,15 @@ export default class FilterableLogMonitor extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { dispatch, stagedActionIds } = this.props
+    const { actionsById, dispatch, stagedActionIds } = this.props
 
     if (nextProps.stagedActionIds !== stagedActionIds) {
       for (var i = stagedActionIds.length; i < nextProps.stagedActionIds.length; i++) {
         let actionId = nextProps.stagedActionIds[i]
+        let action = actionsById[actionId]
         let appState = nextProps.computedStates[i].state
 
-        dispatch(addActionMetadata({ actionId, appState }))
+        dispatch(addActionMetadata({ action, actionId, appState }))
       }
     }
   }
@@ -51,16 +52,16 @@ export default class FilterableLogMonitor extends Component {
       dispatch,
       monitorState: {
         actionFilterText,
-        actions
+        actionIdToDatumMap
       },
       stagedActionIds
     } = this.props
 
     const theme = this._getTheme()
-    const filterableStates = actions && stagedActionIds
+    const filterableStates = actionIdToDatumMap && stagedActionIds
       .filter(actionId => {
         const actionMetadata = actionsById[actionId]
-        const monitorStateAction = actions[actionId]
+        const monitorStateAction = actionIdToDatumMap[actionId]
 
         return (
           monitorStateAction &&
@@ -74,7 +75,7 @@ export default class FilterableLogMonitor extends Component {
       })
       .map(actionId => {
         const actionMetadata = actionsById[actionId]
-        const monitorStateAction = actions[actionId]
+        const monitorStateAction = actionIdToDatumMap[actionId]
 
         return (
           <FilterableState

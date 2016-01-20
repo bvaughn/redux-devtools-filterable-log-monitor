@@ -5,9 +5,10 @@ export const SET_FILTER_BY_VALUES = '@@redux-devtools-filterable-log-monitor/SET
 export const SET_FILTER_TEXT = '@@redux-devtools-filterable-log-monitor/SET_FILTER_TEXT'
 export const TOGGLE_EXPANDED = '@@redux-devtools-filterable-log-monitor/TOGGLE_EXPANDED'
 
-export function addActionMetadata ({ actionId, appState }) {
+export function addActionMetadata ({ action, actionId, appState }) {
   return {
     type: ADD_ACTION_METADATA,
+    action,
     actionId,
     appState,
     time: new Date()

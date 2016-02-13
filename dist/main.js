@@ -1941,9 +1941,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
-	exports['default'] = ActionFilter;
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var _react = __webpack_require__(3);
 	
@@ -1957,59 +1964,82 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var DEBOUNCE_TIME = 250;
 	
-	ActionFilter.propTypes = {
-	  actionFilterText: _react.PropTypes.string,
-	  dispatch: _react.PropTypes.func.isRequired,
-	  theme: _react.PropTypes.object.isRequired
-	};
+	var ActionFilter = (function (_Component) {
+	  _inherits(ActionFilter, _Component);
 	
-	function ActionFilter(_ref) {
-	  var actionFilterText = _ref.actionFilterText;
-	  var dispatch = _ref.dispatch;
-	  var theme = _ref.theme;
+	  _createClass(ActionFilter, null, [{
+	    key: 'propTypes',
+	    value: {
+	      actionFilterText: _react.PropTypes.string,
+	      dispatch: _react.PropTypes.func.isRequired,
+	      theme: _react.PropTypes.object.isRequired
+	    },
+	    enumerable: true
+	  }]);
 	
-	  function onActionFilterTextChange(event) {
-	    var actionFilterText = event.target.value;
-	    dispatch((0, _actions.setActionFilterText)({
-	      actionFilterText: actionFilterText
-	    }));
+	  function ActionFilter(props) {
+	    _classCallCheck(this, ActionFilter);
+	
+	    _get(Object.getPrototypeOf(ActionFilter.prototype), 'constructor', this).call(this, props);
+	
+	    this._debouncedOnActionFilterTextChange = (0, _lodashDebounce2['default'])(this._onActionFilterTextChange.bind(this), DEBOUNCE_TIME);
 	  }
 	
-	  // Debounce for better usability
-	  var debouncedOnActionFilterTextChange = (0, _lodashDebounce2['default'])(onActionFilterTextChange, DEBOUNCE_TIME);
+	  _createClass(ActionFilter, [{
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var actionFilterText = _props.actionFilterText;
+	      var theme = _props.theme;
 	
-	  return _react2['default'].createElement(
-	    'div',
-	    {
-	      style: {
-	        flex: '0 0 auto',
-	        display: 'flex',
-	        flexDirection: 'row',
-	        backgroundColor: theme.base01,
-	        padding: '.75em',
-	        fontSize: '.65em',
-	        textTransform: 'uppercase',
-	        fontWeight: 'bold'
-	      }
-	    },
-	    _react2['default'].createElement('input', {
-	      style: {
-	        flex: '0 0 100%',
-	        borderRadius: '.25em',
-	        lineHeight: '3em',
-	        padding: '0 .75em',
-	        border: 'none',
-	        backgroundColor: theme.base06,
-	        color: theme.base00
-	      },
-	      type: 'text',
-	      placeholder: 'Filter actions by type..',
-	      defaultValue: actionFilterText,
-	      onChange: debouncedOnActionFilterTextChange
-	    })
-	  );
-	}
+	      return _react2['default'].createElement(
+	        'div',
+	        {
+	          style: {
+	            flex: '0 0 auto',
+	            display: 'flex',
+	            flexDirection: 'row',
+	            backgroundColor: theme.base01,
+	            padding: '.75em',
+	            fontSize: '.65em',
+	            textTransform: 'uppercase',
+	            fontWeight: 'bold'
+	          }
+	        },
+	        _react2['default'].createElement('input', {
+	          ref: 'input',
+	          style: {
+	            flex: '0 0 100%',
+	            borderRadius: '.25em',
+	            lineHeight: '3em',
+	            padding: '0 .75em',
+	            border: 'none',
+	            backgroundColor: theme.base06,
+	            color: theme.base00
+	          },
+	          type: 'text',
+	          placeholder: 'Filter actions by type..',
+	          defaultValue: actionFilterText,
+	          onChange: this._debouncedOnActionFilterTextChange
+	        })
+	      );
+	    }
+	  }, {
+	    key: '_onActionFilterTextChange',
+	    value: function _onActionFilterTextChange() {
+	      var actionFilterText = this.refs.input.value;
+	      var dispatch = this.props.dispatch;
 	
+	      dispatch((0, _actions.setActionFilterText)({
+	        actionFilterText: actionFilterText
+	      }));
+	    }
+	  }]);
+	
+	  return ActionFilter;
+	})(_react.Component);
+	
+	exports['default'] = ActionFilter;
 	module.exports = exports['default'];
 
 /***/ },
@@ -2606,6 +2636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _props = this.props;
 	    var value = _props.data;
 	    var initialExpanded = _props.expandRoot;
+	    var allExpanded = _props.expandAll;
 	    var getItemString = _props.getItemString;
 	    var labelRenderer = _props.labelRenderer;
 	    var valueRenderer = _props.valueRenderer;
@@ -2616,6 +2647,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var rootNode = (0, _grabNode2.default)({
 	      getItemString: getItemString,
 	      initialExpanded: initialExpanded,
+	      allExpanded: allExpanded,
 	      key: key,
 	      previousData: previousData,
 	      styles: getStyles,
@@ -2637,6 +2669,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  data: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.array, _react2.default.PropTypes.object]).isRequired
 	}, _class.defaultProps = {
 	  expandRoot: true,
+	  expandAll: false,
 	  keyName: 'root',
 	  theme: _solarized2.default,
 	  getArrowStyle: getEmptyStyle,
@@ -2672,6 +2705,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var getItemString = _ref.getItemString;
 	  var _ref$initialExpanded = _ref.initialExpanded;
 	  var initialExpanded = _ref$initialExpanded === undefined ? false : _ref$initialExpanded;
+	  var allExpanded = _ref.allExpanded;
 	  var key = _ref.key;
 	  var labelRenderer = _ref.labelRenderer;
 	  var previousData = _ref.previousData;
@@ -2699,6 +2733,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var nestedNodeProps = _extends({}, simpleNodeProps, {
 	    data: value,
 	    initialExpanded: initialExpanded,
+	    allExpanded: allExpanded,
 	    keyName: key
 	  });
 	
@@ -2844,6 +2879,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var styles = _ref2.styles;
 	  var theme = _ref2.theme;
 	  var valueRenderer = _ref2.valueRenderer;
+	  var allExpanded = _ref2.allExpanded;
 	
 	  var childNodes = [];
 	  for (var key in data) {
@@ -2862,7 +2898,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        styles: styles,
 	        theme: theme,
 	        value: data[key],
-	        valueRenderer: valueRenderer
+	        valueRenderer: valueRenderer,
+	        allExpanded: allExpanded
 	      });
 	
 	      if (node !== false) {
@@ -2948,14 +2985,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _this.defaultProps = {
 	      data: [],
-	      initialExpanded: false
+	      initialExpanded: false,
+	      allExpanded: false
 	    };
 	    _this.itemString = false;
 	    _this.needsChildNodes = true;
 	    _this.renderedChildren = [];
 	
 	    _this.state = {
-	      expanded: _this.props.initialExpanded,
+	      expanded: _this.props.initialExpanded || _this.props.allExpanded,
 	      createdChildNodes: false
 	    };
 	    return _this;
@@ -3585,6 +3623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var styles = _ref2.styles;
 	  var theme = _ref2.theme;
 	  var valueRenderer = _ref2.valueRenderer;
+	  var allExpanded = _ref2.allExpanded;
 	
 	  var childNodes = [];
 	  data.forEach(function (value, key) {
@@ -3602,7 +3641,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      styles: styles,
 	      theme: theme,
 	      value: value,
-	      valueRenderer: valueRenderer
+	      valueRenderer: valueRenderer,
+	      allExpanded: allExpanded
 	    });
 	
 	    if (node !== false) {
@@ -3706,6 +3746,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var styles = _ref3.styles;
 	  var theme = _ref3.theme;
 	  var valueRenderer = _ref3.valueRenderer;
+	  var allExpanded = _ref3.allExpanded;
 	
 	  var childNodes = [];
 	  for (var _iterator2 = data, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
@@ -3745,7 +3786,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      styles: styles,
 	      theme: theme,
 	      value: value,
-	      valueRenderer: valueRenderer
+	      valueRenderer: valueRenderer,
+	      allExpanded: allExpanded
 	    });
 	
 	    if (node !== false) {
@@ -3911,9 +3953,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
-	exports['default'] = FilterHeader;
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var _react = __webpack_require__(3);
 	
@@ -3931,221 +3980,267 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactResponsive2 = _interopRequireDefault(_reactResponsive);
 	
-	FilterHeader.propTypes = {
-	  action: _react.PropTypes.object.isRequired,
-	  actionId: _react.PropTypes.any.isRequired,
-	  dispatch: _react.PropTypes.func.isRequired,
-	  monitorStateAction: _react.PropTypes.object.isRequired,
-	  theme: _react.PropTypes.object.isRequired
-	};
-	
 	var DEBOUNCE_TIME = 250;
 	
-	function FilterHeader(_ref) {
-	  var action = _ref.action;
-	  var actionId = _ref.actionId;
-	  var dispatch = _ref.dispatch;
-	  var monitorStateAction = _ref.monitorStateAction;
-	  var theme = _ref.theme;
-	  var expanded = monitorStateAction.expanded;
-	  var filterByKeys = monitorStateAction.filterByKeys;
-	  var filterByValues = monitorStateAction.filterByValues;
-	  var filterText = monitorStateAction.filterText;
-	  var time = monitorStateAction.time;
+	var FilterHeader = (function (_Component) {
+	  _inherits(FilterHeader, _Component);
 	
-	  function onFilterByKeysChange(event) {
-	    var filterByKeys = event.target.checked;
-	    dispatch((0, _actions.setFilterByKeys)({
-	      actionId: actionId,
-	      filterByKeys: filterByKeys
-	    }));
-	  }
-	
-	  function onFilterByValuesChange(event) {
-	    var filterByValues = event.target.checked;
-	    dispatch((0, _actions.setFilterByValues)({
-	      actionId: actionId,
-	      filterByValues: filterByValues
-	    }));
-	  }
-	
-	  function onFilterTextChange(event) {
-	    var filterText = event.target.value;
-	    dispatch((0, _actions.setFilterText)({
-	      actionId: actionId,
-	      filterText: filterText
-	    }));
-	  }
-	
-	  function toggleExpanded() {
-	    dispatch((0, _actions.setExpanded)({
-	      actionId: actionId,
-	      expanded: !expanded
-	    }));
-	  }
-	
-	  // Debounce for better usability
-	  var debouncedOnFilterTextChange = (0, _lodashDebounce2['default'])(onFilterTextChange, DEBOUNCE_TIME);
-	
-	  return _react2['default'].createElement(
-	    'div',
-	    {
-	      style: {
-	        flex: '0 0 auto',
-	        alignItems: 'center'
-	      }
+	  _createClass(FilterHeader, null, [{
+	    key: 'propTypes',
+	    value: {
+	      action: _react.PropTypes.object.isRequired,
+	      actionId: _react.PropTypes.any.isRequired,
+	      dispatch: _react.PropTypes.func.isRequired,
+	      monitorStateAction: _react.PropTypes.object.isRequired,
+	      theme: _react.PropTypes.object.isRequired
 	    },
-	    _react2['default'].createElement(
-	      'div',
-	      {
-	        style: {
-	          display: 'flex',
-	          alignItems: 'center',
-	          padding: '.5em',
-	          backgroundColor: theme.base02,
-	          color: theme.base06
-	        }
-	      },
-	      _react2['default'].createElement('div', {
-	        style: {
-	          display: 'inline-block',
-	          marginRight: '5px',
-	          borderLeft: '5px solid transparent',
-	          borderRight: '5px solid transparent',
-	          borderTopWidth: '5px',
-	          borderTopStyle: 'solid',
-	          cursor: 'pointer',
-	          transition: '150ms',
-	          transform: expanded ? 'rotateZ(0deg)' : 'rotateZ(-90deg)',
-	          borderTopColor: expanded ? theme.base06 : theme.base05
-	        },
-	        onClick: toggleExpanded
-	      }),
-	      _react2['default'].createElement(
+	    enumerable: true
+	  }]);
+	
+	  function FilterHeader(props) {
+	    _classCallCheck(this, FilterHeader);
+	
+	    _get(Object.getPrototypeOf(FilterHeader.prototype), 'constructor', this).call(this, props);
+	
+	    this._onFilterByKeysChange = this._onFilterByKeysChange.bind(this);
+	    this._onFilterByValuesChange = this._onFilterByValuesChange.bind(this);
+	    this._onFilterTextChange = this._onFilterTextChange.bind(this);
+	    this._toggleExpanded = this._toggleExpanded.bind(this);
+	
+	    this._debouncedOnFilterTextChange = (0, _lodashDebounce2['default'])(this._onFilterTextChange, DEBOUNCE_TIME);
+	  }
+	
+	  _createClass(FilterHeader, [{
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var action = _props.action;
+	      var monitorStateAction = _props.monitorStateAction;
+	      var theme = _props.theme;
+	      var expanded = monitorStateAction.expanded;
+	      var filterByKeys = monitorStateAction.filterByKeys;
+	      var filterByValues = monitorStateAction.filterByValues;
+	      var filterText = monitorStateAction.filterText;
+	      var time = monitorStateAction.time;
+	
+	      return _react2['default'].createElement(
 	        'div',
 	        {
-	          title: action.type,
-	          onClick: toggleExpanded,
 	          style: {
-	            flex: '1 1 auto',
-	            whiteSpace: 'nowrap',
-	            textOverflow: 'ellipsis',
-	            overflowX: 'hidden',
-	            cursor: 'pointer'
+	            flex: '0 0 auto',
+	            alignItems: 'center'
 	          }
 	        },
-	        action.type,
 	        _react2['default'].createElement(
-	          _reactResponsive2['default'],
-	          { query: '(min-width: 1024px)' },
+	          'div',
+	          {
+	            style: {
+	              display: 'flex',
+	              alignItems: 'center',
+	              padding: '.5em',
+	              backgroundColor: theme.base02,
+	              color: theme.base06
+	            }
+	          },
+	          _react2['default'].createElement('div', {
+	            style: {
+	              display: 'inline-block',
+	              marginRight: '5px',
+	              borderLeft: '5px solid transparent',
+	              borderRight: '5px solid transparent',
+	              borderTopWidth: '5px',
+	              borderTopStyle: 'solid',
+	              cursor: 'pointer',
+	              transition: '150ms',
+	              transform: expanded ? 'rotateZ(0deg)' : 'rotateZ(-90deg)',
+	              borderTopColor: expanded ? theme.base06 : theme.base05
+	            },
+	            onClick: this._toggleExpanded
+	          }),
 	          _react2['default'].createElement(
-	            'span',
+	            'div',
 	            {
+	              title: action.type,
+	              onClick: this._toggleExpanded,
 	              style: {
-	                color: theme.base05,
-	                fontSize: '.6em',
-	                marginLeft: '.6em'
+	                flex: '1 1 auto',
+	                whiteSpace: 'nowrap',
+	                textOverflow: 'ellipsis',
+	                overflowX: 'hidden',
+	                cursor: 'pointer'
 	              }
 	            },
-	            '(' + time.format('H:mm:ss A') + ')'
-	          )
-	        )
-	      ),
-	      _react2['default'].createElement(
-	        'div',
-	        {
-	          style: {
-	            display: 'flex',
-	            alignItems: 'center',
-	            flex: '0 0 auto',
-	            marginLeft: '.5em',
-	            fontSize: '.8em'
-	          }
-	        },
-	        _react2['default'].createElement(
-	          _reactResponsive2['default'],
-	          { query: '(min-width: 1024px)' },
+	            action.type,
+	            _react2['default'].createElement(
+	              _reactResponsive2['default'],
+	              { query: '(min-width: 1024px)' },
+	              _react2['default'].createElement(
+	                'span',
+	                {
+	                  style: {
+	                    color: theme.base05,
+	                    fontSize: '.6em',
+	                    marginLeft: '.6em'
+	                  }
+	                },
+	                '(' + time.format('H:mm:ss A') + ')'
+	              )
+	            )
+	          ),
 	          _react2['default'].createElement(
 	            'div',
 	            {
 	              style: {
-	                flex: '0 0 auto'
+	                display: 'flex',
+	                alignItems: 'center',
+	                flex: '0 0 auto',
+	                marginLeft: '.5em',
+	                fontSize: '.8em'
 	              }
 	            },
-	            'Filter by'
+	            _react2['default'].createElement(
+	              _reactResponsive2['default'],
+	              { query: '(min-width: 1024px)' },
+	              _react2['default'].createElement(
+	                'div',
+	                {
+	                  style: {
+	                    flex: '0 0 auto'
+	                  }
+	                },
+	                'Filter by'
+	              )
+	            ),
+	            _react2['default'].createElement(
+	              'label',
+	              {
+	                style: {
+	                  flex: '0 0 auto',
+	                  marginLeft: '.5em',
+	                  fontWeight: 'normal',
+	                  color: theme.base0D
+	                }
+	              },
+	              _react2['default'].createElement('input', {
+	                type: 'checkbox',
+	                checked: filterByKeys,
+	                onChange: this._onFilterByKeysChange
+	              }),
+	              'Keys'
+	            ),
+	            _react2['default'].createElement(
+	              'label',
+	              {
+	                style: {
+	                  flex: '0 0 auto',
+	                  marginLeft: '.5em',
+	                  fontWeight: 'normal',
+	                  color: theme.base0B
+	                }
+	              },
+	              _react2['default'].createElement('input', {
+	                type: 'checkbox',
+	                checked: filterByValues,
+	                onChange: this._onFilterByValuesChange
+	              }),
+	              'Values'
+	            )
 	          )
 	        ),
-	        _react2['default'].createElement(
-	          'label',
+	        expanded && _react2['default'].createElement(
+	          'div',
 	          {
 	            style: {
-	              flex: '0 0 auto',
-	              marginLeft: '.5em',
-	              fontWeight: 'normal',
-	              color: theme.base0D
+	              display: 'flex',
+	              flexDirection: 'row',
+	              flexWrap: 'wrap',
+	              alignItems: 'center',
+	              backgroundColor: theme.base01,
+	              color: theme.base06,
+	              padding: '.75em',
+	              fontSize: '.65em',
+	              textTransform: 'uppercase',
+	              fontWeight: 'bold'
 	            }
 	          },
 	          _react2['default'].createElement('input', {
-	            type: 'checkbox',
-	            checked: filterByKeys,
-	            onChange: onFilterByKeysChange
-	          }),
-	          'Keys'
-	        ),
-	        _react2['default'].createElement(
-	          'label',
-	          {
+	            ref: 'input',
 	            style: {
-	              flex: '0 0 auto',
-	              marginLeft: '.5em',
-	              fontWeight: 'normal',
-	              color: theme.base0B
-	            }
-	          },
-	          _react2['default'].createElement('input', {
-	            type: 'checkbox',
-	            checked: filterByValues,
-	            onChange: onFilterByValuesChange
-	          }),
-	          'Values'
+	              flex: '0 0 100%',
+	              borderRadius: '.25em',
+	              lineHeight: '3em',
+	              padding: '0 .75em',
+	              border: 'none',
+	              backgroundColor: theme.base06,
+	              color: theme.base00
+	            },
+	            type: 'text',
+	            placeholder: 'Filter by /regex/i or "string"',
+	            defaultValue: filterText,
+	            onChange: this._debouncedOnFilterTextChange
+	          })
 	        )
-	      )
-	    ),
-	    expanded && _react2['default'].createElement(
-	      'div',
-	      {
-	        style: {
-	          display: 'flex',
-	          flexDirection: 'row',
-	          flexWrap: 'wrap',
-	          alignItems: 'center',
-	          backgroundColor: theme.base01,
-	          color: theme.base06,
-	          padding: '.75em',
-	          fontSize: '.65em',
-	          textTransform: 'uppercase',
-	          fontWeight: 'bold'
-	        }
-	      },
-	      _react2['default'].createElement('input', {
-	        style: {
-	          flex: '0 0 100%',
-	          borderRadius: '.25em',
-	          lineHeight: '3em',
-	          padding: '0 .75em',
-	          border: 'none',
-	          backgroundColor: theme.base06,
-	          color: theme.base00
-	        },
-	        type: 'text',
-	        placeholder: 'Filter by /regex/i or "string"',
-	        defaultValue: filterText,
-	        onChange: debouncedOnFilterTextChange
-	      })
-	    )
-	  );
-	}
+	      );
+	    }
+	  }, {
+	    key: '_onFilterByKeysChange',
+	    value: function _onFilterByKeysChange(event) {
+	      var filterByKeys = event.target.checked;
+	      var _props2 = this.props;
+	      var actionId = _props2.actionId;
+	      var dispatch = _props2.dispatch;
 	
+	      dispatch((0, _actions.setFilterByKeys)({
+	        actionId: actionId,
+	        filterByKeys: filterByKeys
+	      }));
+	    }
+	  }, {
+	    key: '_onFilterByValuesChange',
+	    value: function _onFilterByValuesChange(event) {
+	      var filterByValues = event.target.checked;
+	      var _props3 = this.props;
+	      var actionId = _props3.actionId;
+	      var dispatch = _props3.dispatch;
+	
+	      dispatch((0, _actions.setFilterByValues)({
+	        actionId: actionId,
+	        filterByValues: filterByValues
+	      }));
+	    }
+	  }, {
+	    key: '_onFilterTextChange',
+	    value: function _onFilterTextChange(event) {
+	      var filterText = this.refs.input.value;
+	      var _props4 = this.props;
+	      var actionId = _props4.actionId;
+	      var dispatch = _props4.dispatch;
+	
+	      dispatch((0, _actions.setFilterText)({
+	        actionId: actionId,
+	        filterText: filterText
+	      }));
+	    }
+	  }, {
+	    key: '_toggleExpanded',
+	    value: function _toggleExpanded() {
+	      var _props5 = this.props;
+	      var actionId = _props5.actionId;
+	      var dispatch = _props5.dispatch;
+	      var monitorStateAction = _props5.monitorStateAction;
+	      var expanded = monitorStateAction.expanded;
+	
+	      dispatch((0, _actions.setExpanded)({
+	        actionId: actionId,
+	        expanded: !expanded
+	      }));
+	    }
+	  }]);
+	
+	  return FilterHeader;
+	})(_react.Component);
+	
+	exports['default'] = FilterHeader;
 	module.exports = exports['default'];
 
 /***/ },
@@ -4304,6 +4399,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var hyphenate = __webpack_require__(75);
 	var mediaQuery = __webpack_require__(76);
 	var toQuery = __webpack_require__(78);
+	var assign = __webpack_require__(77);
 	
 	var defaultTypes = {
 	  component: React.PropTypes.node,
@@ -4316,7 +4412,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var excludedPropKeys = excludedQueryKeys.concat(mediaKeys);
 	
 	function omit(object, keys){
-	  var newObject = Object.assign({}, object);
+	  var newObject = assign({}, object);
 	  keys.forEach(function(key){
 	    delete newObject[key];
 	  });

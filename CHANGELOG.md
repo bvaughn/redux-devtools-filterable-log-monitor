@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.1
+Fixed null pointer error in debounce input change handler.
+
 ## 0.6.0
 Added (filterable) actions to log monitor in addition to state.
 

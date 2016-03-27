@@ -1,7 +1,6 @@
 /** @flow */
 import React, { Component, PropTypes } from 'react'
 import reducer from './reducers'
-import shouldPureComponentUpdate from 'react-pure-render/function'
 import * as themes from 'redux-devtools-themes'
 import { addActionMetadata } from './actions'
 import ActionFilter from './components/ActionFilter'
@@ -9,9 +8,7 @@ import FilterableState from './components/FilterableState'
 import { createRegExpFromFilterText } from './utils'
 
 export default class FilterableLogMonitor extends Component {
-  static shouldComponentUpdate = shouldPureComponentUpdate
-
-  static update = reducer
+  static update = reducer;
 
   static propTypes = {
     actionsById: PropTypes.object,

@@ -2,9 +2,9 @@ module.exports = function (config) {
   config.set({
     browsers: ['PhantomJS'],
     frameworks: ['jasmine'],
-    files: ['src/tests.js'],
+    files: ['source/tests.js'],
     preprocessors: {
-      'src/tests.js': ['webpack', 'sourcemap']
+      'source/tests.js': ['webpack', 'sourcemap']
     },
     junitReporter: {
       outputDir: (process.env.CIRCLE_TEST_REPORTS || 'public') + '/karma',

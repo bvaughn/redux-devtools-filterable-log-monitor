@@ -3,10 +3,10 @@ const path = require('path')
 module.exports = {
   devtool: 'source-map',
   entry: [
-    './src/index.js'
+    './source/index.js'
   ],
   output: {
-    path: 'dist',
+    path: 'dist/umd',
     filename: '[name].js',
     libraryTarget: 'umd',
     library: 'redux-devtools-filterable-log-monitor'
@@ -26,7 +26,7 @@ module.exports = {
       {
         test: /\.js$/,
         loaders: ['babel'],
-        include: path.join(__dirname, 'src')
+        include: path.join(__dirname, 'source')
       }
     ]
   }

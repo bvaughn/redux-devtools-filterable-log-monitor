@@ -2,7 +2,7 @@
 
 ## 0.6.2
 Upgraded to Babel 6 and split UMD, ES6, and CommonJS builds.
-Removed `react-pure-render` dependency.
+Removed `react-pure-render` and `date-formate-lite` dependencies.
 
 ## 0.6.1
 Fixed null pointer error in debounce input change handler.

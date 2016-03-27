@@ -6,8 +6,8 @@ import {
   setFilterText,
   setExpanded
 } from '../actions'
+import { formatDateAsTime } from '../utils'
 import debounce from 'lodash.debounce'
-import 'date-format-lite'
 import MediaQuery from 'react-responsive'
 
 const DEBOUNCE_TIME = 250
@@ -103,7 +103,7 @@ export default class FilterHeader extends Component {
                   marginLeft: '.6em'
                 }}
               >
-                {`(${time.format('H:mm:ss A')})`}
+                {`(${formatDateAsTime(time)})`}
               </span>
             </MediaQuery>
           </div>

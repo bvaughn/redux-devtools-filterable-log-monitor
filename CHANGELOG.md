@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.3
+Updated React dependency to support both `^0.14.0` and `^15.0.0`.
+
 ## 0.6.2
 Upgraded to Babel 6 and split UMD, ES6, and CommonJS builds.
 Removed `react-pure-render` and `date-formate-lite` dependencies.

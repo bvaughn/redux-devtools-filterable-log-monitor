@@ -115,7 +115,7 @@
     "webpack-dev-server": "^1.14.0"
   },
   "peerDependencies": {
-    "react": "^0.14.0",
+    "react": "^0.14.0 || ^15.0.0",
     "redux-devtools": "^3.0.0"
   },
   "dependencies": {

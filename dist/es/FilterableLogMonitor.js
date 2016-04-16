@@ -71,17 +71,17 @@ var FilterableLogMonitor = function (_Component) {
         {
           style: {
             position: 'absolute',
-            right: '0',
-            top: '0',
-            bottom: '0',
+            right: 0,
+            top: 0,
+            bottom: 0,
             width: '100%',
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: theme.base00,
             color: theme.base07,
-            fontSize: '14px',
-            minWidth: '200px'
+            fontSize: 14,
+            minWidth: 200
           }
         },
         React.createElement(ActionFilter, {

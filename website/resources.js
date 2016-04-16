@@ -82,7 +82,6 @@ export const actionHandlers = {
 }
 
 export function reducer (state = new State(), action: Object): State {
-  console.log('<reducer>', action.type, state)
   const { type } = action
   if (type in actionHandlers) {
     return actionHandlers[type](state, action)

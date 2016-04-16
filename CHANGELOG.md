@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.4
+Fixed a React 15 `style` warning.
+
 ## 0.6.3
 Updated React dependency to support both `^0.14.0` and `^15.0.0`.
 

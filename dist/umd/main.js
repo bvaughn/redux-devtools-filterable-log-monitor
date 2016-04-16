@@ -186,17 +186,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return _jsx('div', {
 	        style: {
 	          position: 'absolute',
-	          right: '0',
-	          top: '0',
-	          bottom: '0',
+	          right: 0,
+	          top: 0,
+	          bottom: 0,
 	          width: '100%',
 	          height: '100%',
 	          display: 'flex',
 	          flexDirection: 'column',
 	          backgroundColor: theme.base00,
 	          color: theme.base07,
-	          fontSize: '14px',
-	          minWidth: '200px'
+	          fontSize: 14,
+	          minWidth: 200
 	        }
 	      }, void 0, _jsx(_ActionFilter2.default, {
 	        actionFilterText: actionFilterText,
@@ -2753,7 +2753,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 58 */
 /***/ function(module, exports) {
 
-	var core = module.exports = {version: '2.2.1'};
+	var core = module.exports = {version: '2.2.2'};
 	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ },
@@ -3056,7 +3056,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if(value != value)return true;
 	    // Array#toIndex ignores holes, Array#includes - not
 	    } else for(;length > index; index++)if(IS_INCLUDES || index in O){
-	      if(O[index] === el)return IS_INCLUDES || index;
+	      if(O[index] === el)return IS_INCLUDES || index || 0;
 	    } return !IS_INCLUDES && -1;
 	  };
 	};
@@ -6216,15 +6216,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var uppercasePattern = /([A-Z])/g;
+	var uppercasePattern = /[A-Z]/g;
 	var msPattern = /^ms-/;
 	
 	function hyphenateStyleName(string) {
-	    return hyphenate(string).replace(msPattern, '-ms-');
-	}
-	
-	function hyphenate(string) {
-	    return string.replace(uppercasePattern, '-$1').toLowerCase();
+	    return string
+	        .replace(uppercasePattern, '-$&')
+	        .toLowerCase()
+	        .replace(msPattern, '-ms-');
 	}
 	
 	module.exports = hyphenateStyleName;

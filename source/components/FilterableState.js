@@ -9,9 +9,6 @@ function highlightMatches (filterText, value) {
   return (
     <Highlighter
       matchStyle={{
-        display: 'inline-block',
-        padding: '3px 0',
-        margin: '-3px 0',
         backgroundColor: 'rgba(255, 255, 255, .1)'
       }}
       search={createRegExpFromFilterText(filterText)}
@@ -86,6 +83,7 @@ export default function FilterableState ({
           </div>
           <JSONTree
             data={data.source}
+            isLightTheme={false}
             labelRenderer={labelRenderer}
             style={{
               marginTop: 0,

@@ -120,8 +120,8 @@
   },
   "dependencies": {
     "lodash.debounce": "^3.1.1",
-    "react-highlighter": "^0.3.0",
-    "react-json-tree": "^0.6.5",
+    "react-highlighter": "^0.3.2",
+    "react-json-tree": "^0.7.3",
     "react-responsive": "^1.1.2",
     "redux-devtools-themes": "^1.0.0"
   }

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.5
+Updated `react-json-tree` dependency to fix React version warning.
+
 ## 0.6.4
 Fixed a React 15 `style` warning.
 

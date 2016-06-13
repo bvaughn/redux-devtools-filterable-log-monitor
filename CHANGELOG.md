@@ -1,28 +1,31 @@
 # Changelog
 
-## 0.6.5
+#### 6.6.6
+Bumped react-highlighter and react-json-tree versions to fix React.spread warning.
+
+#### 0.6.5
 Updated `react-json-tree` dependency to fix React version warning.
 
-## 0.6.4
+#### 0.6.4
 Fixed a React 15 `style` warning.
 
-## 0.6.3
+#### 0.6.3
 Updated React dependency to support both `^0.14.0` and `^15.0.0`.
 
-## 0.6.2
+#### 0.6.2
 Upgraded to Babel 6 and split UMD, ES6, and CommonJS builds.
 Removed `react-pure-render` and `date-formate-lite` dependencies.
 
-## 0.6.1
+#### 0.6.1
 Fixed null pointer error in debounce input change handler.
 
 ## 0.6.0
 Added (filterable) actions to log monitor in addition to state.
 
-## 0.5.2
+#### 0.5.2
 Updated match highlighting logic to stay in sync with changes in recent react-json-tree 0.5.1 release.
 
-## 0.5.1
+#### 0.5.1
 Updated to `react-highlighter` version 0.2.3 instead of forked build now that custom match style is supported.
 
 ## 0.5.0

@@ -1,9 +1,9 @@
 # Changelog
 
-#### 6.6.7
+#### 0.6.7
 Pruned unnecessary files from NPM bundle.
 
-#### 6.6.6
+#### 0.6.6
 Bumped react-highlighter and react-json-tree versions to fix React.spread warning.
 
 #### 0.6.5

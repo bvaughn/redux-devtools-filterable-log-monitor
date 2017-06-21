@@ -1,7 +1,8 @@
 /** @flow */
 import { actions } from './resources'
 import { connect } from 'react-redux'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styles from './Application.css'
 
 class Application extends Component {

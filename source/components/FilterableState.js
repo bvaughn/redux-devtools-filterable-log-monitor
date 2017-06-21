@@ -1,5 +1,6 @@
 /** @flow */
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import JSONTree from 'react-json-tree'
 import FilterHeader from './FilterHeader'
 import Highlighter from 'react-highlighter'

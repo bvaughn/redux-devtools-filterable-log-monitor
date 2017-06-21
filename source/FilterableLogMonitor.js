@@ -1,5 +1,6 @@
 /** @flow */
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import reducer from './reducers'
 import * as themes from 'redux-devtools-themes'
 import { addActionMetadata } from './actions'

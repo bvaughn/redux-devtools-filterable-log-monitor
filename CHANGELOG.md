@@ -1,5 +1,8 @@
 # Changelog
 
+#### 0.6.8
+Updated `PropTypes` to use new, separate 'prop-type' package.
+
 #### 0.6.7
 Pruned unnecessary files from NPM bundle.
 

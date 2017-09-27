@@ -30,6 +30,8 @@ export default class FilterableLogMonitor extends Component {
     theme: 'nicinabox'
   }
 
+  static isMouseOver = false;
+
   componentWillReceiveProps (nextProps) {
     const { actionsById, dispatch, stagedActionIds } = this.props
 
@@ -41,6 +43,12 @@ export default class FilterableLogMonitor extends Component {
 
         dispatch(addActionMetadata({ action, actionId, appState }))
       }
+    }
+  }
+
+  componentDidUpdate () {
+    if (!this.isMouseOver) {
+      this.refs.wrapper.scrollTop = this.refs.container.offsetHeight
     }
   }
 
@@ -103,6 +111,8 @@ export default class FilterableLogMonitor extends Component {
           fontSize: 14,
           minWidth: 200
         }}
+        onMouseOver={(e) => this.isMouseOver = true}
+        onMouseOut={(e) => this.isMouseOver = false}
       >
         <ActionFilter
           actionFilterText={actionFilterText}
@@ -110,12 +120,13 @@ export default class FilterableLogMonitor extends Component {
           theme={theme}
         />
         <div
+          ref='wrapper'
           style={{
             flex: '1',
             overflowY: 'scroll'
           }}
         >
-          {filterableStates}
+          <div ref='container'>{filterableStates}</div>
         </div>
       </div>
     )

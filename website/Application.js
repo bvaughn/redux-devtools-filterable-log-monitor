@@ -5,6 +5,18 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Application.css'
 
+const timeoutUpdater = function (enable, methodA, methodB) {
+  if (!enable) {
+    return clearTimeout(timeoutUpdater.timerId)
+  }
+
+  (Math.random() > 0.5) ? methodA() : methodB()
+
+  timeoutUpdater.timerId = setTimeout(() => {
+    timeoutUpdater(enable, methodA, methodB)
+  }, 10)
+}
+
 class Application extends Component {
   static propTypes = {
     udpateArray: PropTypes.func.isRequired,
@@ -39,6 +51,10 @@ class Application extends Component {
         </ul>
 
         <p>
+          <label className={styles.Label}>
+            <input type='checkbox' onChange={(e) => (timeoutUpdater(e.target.checked, udpateArray, udpateMap))}/>
+            Auto update (every 10 ms)
+          </label>
           <UpdateButton
             label='Array'
             labelClass='array'

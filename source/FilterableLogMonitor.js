@@ -113,10 +113,7 @@ export default class FilterableLogMonitor extends Component {
           color: theme.base07,
           fontSize: 14,
           minWidth: 200
-        }}
-        onMouseOver={(e) => this.isMouseOver = true}
-        onMouseOut={(e) => this.isMouseOver = false}
-      >
+        }}>
         <ActionFilter
           actionFilterText={actionFilterText}
           dispatch={dispatch}

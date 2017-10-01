@@ -48,7 +48,7 @@ export default class FilterableLogMonitor extends Component {
 
   componentDidUpdate () {
     if (!this.isMouseOver) {
-      this.refs.wrapper.scrollTop = this.refs.container.offsetHeight
+      this.wrapperNode.scrollTop = this.containerNode.offsetHeight
     }
   }
 
@@ -120,13 +120,13 @@ export default class FilterableLogMonitor extends Component {
           theme={theme}
         />
         <div
-          ref='wrapper'
+          ref={(node) => { this.wrapperNode = node }}
           style={{
             flex: '1',
             overflowY: 'scroll'
           }}
         >
-          <div ref='container'>{filterableStates}</div>
+          <div ref={(node) => { this.containerNode = node }} >{filterableStates}</div>
         </div>
       </div>
     )

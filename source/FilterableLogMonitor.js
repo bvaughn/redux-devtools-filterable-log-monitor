@@ -30,7 +30,10 @@ export default class FilterableLogMonitor extends Component {
     theme: 'nicinabox'
   }
 
-  static isMouseOver = false;
+  constructor (props) {
+    super(props)
+    this.isAutoScrollEnabled = true
+  }
 
   componentWillReceiveProps (nextProps) {
     const { actionsById, dispatch, stagedActionIds } = this.props
@@ -47,7 +50,7 @@ export default class FilterableLogMonitor extends Component {
   }
 
   componentDidUpdate () {
-    if (!this.isMouseOver) {
+    if (this.isAutoScrollEnabled) {
       this.wrapperNode.scrollTop = this.containerNode.offsetHeight
     }
   }
@@ -125,7 +128,13 @@ export default class FilterableLogMonitor extends Component {
             flex: '1',
             overflowY: 'scroll'
           }}
-        >
+          onScroll={() => {
+            if (this.wrapperNode.scrollTop + this.wrapperNode.offsetHeight >= this.containerNode.offsetHeight) {
+              this.isAutoScrollEnabled = true
+              return
+            }
+            this.isAutoScrollEnabled = false
+          }}>
           <div ref={(node) => { this.containerNode = node }} >{filterableStates}</div>
         </div>
       </div>

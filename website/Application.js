@@ -5,16 +5,17 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Application.css'
 
-const timeoutUpdater = function (enable, methodA, methodB) {
+const timeoutUpdater = function (enable, updateMethodsList) {
   if (!enable) {
     return clearTimeout(timeoutUpdater.timerId)
   }
 
-  (Math.random() > 0.5) ? methodA() : methodB()
+  const updateMethod = updateMethodsList[Math.floor(Math.random() * updateMethodsList.length)]
+  updateMethod()
 
   timeoutUpdater.timerId = setTimeout(() => {
-    timeoutUpdater(enable, methodA, methodB)
-  }, 10)
+    timeoutUpdater(enable, updateMethodsList)
+  }, 1000)
 }
 
 class Application extends Component {
@@ -33,6 +34,7 @@ class Application extends Component {
 
   render () {
     const { udpateArray, udpateList, udpateMap, udpateObject } = this.props
+    const autoUpdateMethods = [ udpateArray, udpateList, udpateMap, udpateObject ]
 
     return (
       <div className={styles.Application}>
@@ -52,8 +54,8 @@ class Application extends Component {
 
         <p>
           <label className={styles.Label}>
-            <input type='checkbox' onChange={(e) => (timeoutUpdater(e.target.checked, udpateArray, udpateMap))}/>
-            Auto update (every 10 ms)
+            <input type='checkbox' onChange={(e) => (timeoutUpdater(e.target.checked, autoUpdateMethods))}/>
+            Auto update (every 1s)
           </label>
           <UpdateButton
             label='Array'

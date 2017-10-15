@@ -53,10 +53,6 @@ class Application extends Component {
         </ul>
 
         <p>
-          <label className={styles.Label}>
-            <input type='checkbox' onChange={(e) => (timeoutUpdater(e.target.checked, autoUpdateMethods))}/>
-            Auto update (every 1s)
-          </label>
           <UpdateButton
             label='Array'
             labelClass='array'
@@ -77,6 +73,13 @@ class Application extends Component {
             labelClass='object'
             onClick={udpateObject}
           />
+        </p>
+
+        <p>
+          <label className={styles.Label}>
+            <input type='checkbox' onChange={(e) => (timeoutUpdater(e.target.checked, autoUpdateMethods))}/>
+            Automatically dispatch Redux actions every 1 second (for testing purposes)
+          </label>
         </p>
 
         <p>

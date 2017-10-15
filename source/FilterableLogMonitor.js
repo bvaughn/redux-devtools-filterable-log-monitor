@@ -32,7 +32,12 @@ export default class FilterableLogMonitor extends Component {
 
   constructor (props) {
     super(props)
-    this.isAutoScrollEnabled = true
+
+    this._isAutoScrollEnabled = true
+
+    this._onScroll = this._onScroll.bind(this)
+    this._setContainerRef = this._setContainerRef.bind(this)
+    this._setWrapperRef = this._setWrapperRef.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -49,10 +54,12 @@ export default class FilterableLogMonitor extends Component {
     }
   }
 
+  componentDidMount () {
+    this._autoScroll()
+  }
+
   componentDidUpdate () {
-    if (this.isAutoScrollEnabled) {
-      this.wrapperNode.scrollTop = this.containerNode.offsetHeight
-    }
+    this._autoScroll()
   }
 
   render () {
@@ -120,22 +127,24 @@ export default class FilterableLogMonitor extends Component {
           theme={theme}
         />
         <div
-          ref={(node) => { this.wrapperNode = node }}
+          ref={this._setWrapperRef}
           style={{
             flex: '1',
             overflowY: 'scroll'
           }}
-          onScroll={() => {
-            if (this.wrapperNode.scrollTop + this.wrapperNode.offsetHeight >= this.containerNode.offsetHeight) {
-              this.isAutoScrollEnabled = true
-              return
-            }
-            this.isAutoScrollEnabled = false
-          }}>
-          <div ref={(node) => { this.containerNode = node }} >{filterableStates}</div>
+          onScroll={this._onScroll}>
+          <div ref={this._setContainerRef}>
+            {filterableStates}
+          </div>
         </div>
       </div>
     )
+  }
+
+  _autoScroll () {
+    if (this._isAutoScrollEnabled) {
+      this._wrapperRef.scrollTop = this._containerRef.offsetHeight
+    }
   }
 
   _getTheme () {
@@ -149,5 +158,19 @@ export default class FilterableLogMonitor extends Component {
       console.warn('DevTools theme ' + theme + ' not found, defaulting to nicinabox')
       return themes.nicinabox
     }
+  }
+
+  _onScroll () {
+    this._isAutoScrollEnabled =
+      this._wrapperRef.scrollTop + this._wrapperRef.offsetHeight >=
+      this._containerRef.offsetHeight
+  }
+
+  _setContainerRef (ref) {
+    this._containerRef = ref
+  }
+
+  _setWrapperRef (ref) {
+    this._wrapperRef = ref
   }
 }

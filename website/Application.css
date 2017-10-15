@@ -42,6 +42,10 @@ a:hover {
   background-color: #000000;
 }
 
+.Label{
+  margin-right: .5em;
+}
+
 .update {
   color: #6FB3D2;
   margin-right: .5em;

@@ -30,6 +30,11 @@ export default class FilterableLogMonitor extends Component {
     theme: 'nicinabox'
   }
 
+  constructor (props) {
+    super(props)
+    this.isAutoScrollEnabled = true
+  }
+
   componentWillReceiveProps (nextProps) {
     const { actionsById, dispatch, stagedActionIds } = this.props
 
@@ -41,6 +46,12 @@ export default class FilterableLogMonitor extends Component {
 
         dispatch(addActionMetadata({ action, actionId, appState }))
       }
+    }
+  }
+
+  componentDidUpdate () {
+    if (this.isAutoScrollEnabled) {
+      this.wrapperNode.scrollTop = this.containerNode.offsetHeight
     }
   }
 
@@ -102,20 +113,26 @@ export default class FilterableLogMonitor extends Component {
           color: theme.base07,
           fontSize: 14,
           minWidth: 200
-        }}
-      >
+        }}>
         <ActionFilter
           actionFilterText={actionFilterText}
           dispatch={dispatch}
           theme={theme}
         />
         <div
+          ref={(node) => { this.wrapperNode = node }}
           style={{
             flex: '1',
             overflowY: 'scroll'
           }}
-        >
-          {filterableStates}
+          onScroll={() => {
+            if (this.wrapperNode.scrollTop + this.wrapperNode.offsetHeight >= this.containerNode.offsetHeight) {
+              this.isAutoScrollEnabled = true
+              return
+            }
+            this.isAutoScrollEnabled = false
+          }}>
+          <div ref={(node) => { this.containerNode = node }} >{filterableStates}</div>
         </div>
       </div>
     )

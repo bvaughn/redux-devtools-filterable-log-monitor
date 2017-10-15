@@ -1,5 +1,9 @@
 # Changelog
 
+#### 0.7.0
+Added snap-to-botom behavior to log monitor so that the most recent actions remain visible.
+Thanks to [@edtoken](https://github.com/edtoken) for this contribution via PR #36.
+
 #### 0.6.8
 Updated `PropTypes` to use new, separate 'prop-type' package.
 

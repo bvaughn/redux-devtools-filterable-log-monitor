@@ -1,6 +1,6 @@
 {
   "name": "redux-devtools-filterable-log-monitor",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Filterable tree view monitor for Redux DevTools",
   "main": "dist/commonjs/index.js",
   "jsnext:main": "dist/es/index.js",
@@ -99,9 +99,8 @@
     "karma-spec-reporter": "0.0.23",
     "karma-webpack": "^1.7.0",
     "phantomjs": "^1.9.19",
-    "react": "^15.0.1",
-    "react-addons-test-utils": "^15.0.1",
-    "react-dom": "^15.0.1",
+    "react": "16",
+    "react-dom": "16",
     "react-redux": "^4.0.2",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
@@ -118,15 +117,15 @@
     "webpack-dev-server": "^1.14.0"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0",
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
     "redux-devtools": "^3.0.0"
   },
   "dependencies": {
     "lodash.debounce": "^3.1.1",
-    "prop-types": "^15.5.10",
-    "react-highlighter": "^0.3.2",
-    "react-json-tree": "^0.7.3",
-    "react-responsive": "^1.1.2",
+    "prop-types": "^15.6.0",
+    "react-highlighter": "^0.4.2",
+    "react-json-tree": "^0.11.0",
+    "react-responsive": "^4.0.3",
     "redux-devtools-themes": "^1.0.0"
   }
 }

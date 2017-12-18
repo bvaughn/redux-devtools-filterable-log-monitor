@@ -1,5 +1,8 @@
 # Changelog
 
+#### 0.8.0
+Updated `peerDependencies` and `dependencies` (only where required) to support React 16.
+
 #### 0.7.0
 Added snap-to-botom behavior to log monitor so that the most recent actions remain visible.
 Thanks to [@edtoken](https://github.com/edtoken) for this contribution via PR #36.

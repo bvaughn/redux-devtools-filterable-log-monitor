@@ -1,5 +1,8 @@
 # Changelog
 
+#### 0.8.1
+Bugfix to account for API changes in `react-json-tree` (see [PR #41](https://github.com/bvaughn/redux-devtools-filterable-log-monitor/pull/41)).
+
 #### 0.8.0
 Updated `peerDependencies` and `dependencies` (only where required) to support React 16.
 

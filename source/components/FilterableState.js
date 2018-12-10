@@ -44,8 +44,8 @@ export default function FilterableState ({
   } = monitorStateAction
 
   const labelRenderer = filterByKeys && filterText
-    ? value => highlightMatches(filterText, value)
-    : value => value
+    ? value => highlightMatches(filterText, value[0])
+    : value => value[0]
 
   const valueRenderer = filterByValues && filterText
     ? (value, nodeType) => highlightMatches(filterText, value)
